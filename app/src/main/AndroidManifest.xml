@@ -20,6 +20,7 @@
         <activity android:name=".ui.activity.PatientRegisterActivity"></activity>
         <activity android:name=".ui.activity.DataInformationActivity" />
         <activity android:name=".ui.activity.HospitalActivity" />
+        <activity android:name=".ui.activity.ScheduleRegisterActivity" />
         <activity
             android:name=".ui.activity.NavBottomActivity"
             android:label="@string/title_activity_nav_bottom" />

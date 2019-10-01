@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E9E8"
-    tools:context=".ui.activity.DataInformationActivity">
+    tools:context=".ui.activity.ScheduleRegisterActivity">
     <ImageView
         android:src="@drawable/login_kiri_atas"
         android:layout_width="wrap_content"
@@ -40,8 +40,7 @@
             android:hint="Pick Patient"
             android:backgroundTint="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="date"/>
+            android:layout_height="40dp"/>
 
         <View
 

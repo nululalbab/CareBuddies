@@ -36,8 +36,9 @@ public class PatientPresenter implements PatientContract.Presenter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<DataInformation> list = new ArrayList<>();
+                Log.e("uid care taker ", mAuth.getUid());
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    if (ds.getValue(DataInformation.class).getCare_taker() == mAuth.getUid()){
+                    if (ds.getValue(DataInformation.class).getCare_taker().equals(mAuth.getUid())){
                         list.add(ds.getValue(DataInformation.class));
                     }
                 }
