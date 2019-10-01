@@ -1,7 +1,11 @@
 package com.ulul.carebuddies.presenter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +38,18 @@ public class DataInformationPresenter implements DataInformationContract.Present
 
     @Override
     public void submitData() {
-        databaseReference.child("user").child(mAuth.getUid()).setValue(dataInformation);
+        view.onLoad();
+
+        databaseReference.child("user").child(mAuth.getUid()).setValue(dataInformation).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                view.onSuccess();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                view.onError();
+            }
+        });
     }
 }

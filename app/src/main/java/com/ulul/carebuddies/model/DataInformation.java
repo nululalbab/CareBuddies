@@ -5,7 +5,7 @@ public class DataInformation {
     String alamat;
     String no_telp;
     String ttl;
-    String jenis_kalamin;
+    String jenis_kelamin;
     String sumber_biaya;
     String role;
 
@@ -14,7 +14,7 @@ public class DataInformation {
         this.alamat = alamat;
         this.no_telp = no_telp;
         this.ttl = ttl;
-        this.jenis_kalamin = jenis_kalamin;
+        this.jenis_kelamin = jenis_kalamin;
         this.sumber_biaya = sumber_biaya;
         this.role = role;
     }
@@ -54,12 +54,12 @@ public class DataInformation {
         this.ttl = ttl;
     }
 
-    public String getJenis_kalamin() {
-        return jenis_kalamin;
+    public String getJenis_kelamin() {
+        return jenis_kelamin;
     }
 
     public void setJenis_kalamin(String jenis_kalamin) {
-        this.jenis_kalamin = jenis_kalamin;
+        this.jenis_kelamin = jenis_kalamin;
     }
 
     public String getSumber_biaya() {
