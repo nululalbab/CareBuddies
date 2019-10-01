@@ -36,17 +36,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nama;
-        TextView no_telp;
+        TextView txt_nama;
+        TextView txt_no_telp;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-           nama = (TextView) itemView.findViewById(R.id.txt_nama);
-            no_telp = (TextView) itemView.findViewById(R.id.txt_no_telp);
+           txt_nama = (TextView) itemView.findViewById(R.id.txt_nama);
+            txt_no_telp = (TextView) itemView.findViewById(R.id.txt_no_telp);
         }
 
         public void bindItem(DataInformation item){
-            nama.setText(item.getNama());
-            no_telp.setText(item.getNo_telp());
+            txt_nama.setText(item.getNama());
+            txt_no_telp.setText(item.getNo_telp());
         }
     }
 }
