@@ -100,25 +100,17 @@
                 android:id="@+id/tv_rumahsakit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Suster Ridha Kusniati S.Kep.,Ners."
+                android:text="Add new patient"
                 android:textSize="14dp"
                 android:textColor="#fff"/>
-            <TextView
-                android:id="@+id/tv_caretaker_phone"
-                android:layout_below="@id/tv_rumahsakit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0812424249924"
-                android:textSize="12dp"
-                android:textColor="#fff"/>
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_call_nurse"
-                android:layout_below="@id/tv_caretaker_phone"
+                android:id="@+id/btn_add_patient"
+                android:layout_below="@id/tv_rumahsakit"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
 
                 android:backgroundTint="@color/colorRed"
-                android:src="@drawable/ic_call_black_24dp"
+                android:src="@drawable/ic_add_black_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>

@@ -36,7 +36,9 @@ public class PatientPresenter implements PatientContract.Presenter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<DataInformation> list = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    list.add(ds.getValue(DataInformation.class));
+                    if (ds.getValue(DataInformation.class).getCare_taker() == mAuth.getUid()){
+                        list.add(ds.getValue(DataInformation.class));
+                    }
                 }
                 view.listPatient(list);
                 view.onSuccess();
@@ -65,6 +67,35 @@ public class PatientPresenter implements PatientContract.Presenter {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 view.onError();
+            }
+        });
+    }
+
+    @Override
+    public void connectPatient(final String no_telp) {
+        view.onLoad();
+        databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean cek = false;
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    DataInformation data = ds.getValue(DataInformation.class);
+                    if (data.getRole() == "1" && data.getNo_telp() == no_telp){
+                        data.setCare_taker(mAuth.getUid());
+                        databaseReference.child("user").child(ds.getKey()).setValue(data);
+                        view.onSuccess();
+                        break;
+                    }
+                }
+                if (!cek){
+                    view.message("Sorry phone number doesn't exists");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
             }
         });
     }

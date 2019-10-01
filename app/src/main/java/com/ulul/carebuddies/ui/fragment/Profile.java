@@ -21,6 +21,7 @@ import com.ulul.carebuddies.model.Hospital;
 import com.ulul.carebuddies.ui.activity.HospitalActivity;
 
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -63,6 +64,8 @@ public class Profile extends Fragment {
         final TextView namaRS = view.findViewById(R.id.tv_hospital_name);
         final TextView no_telpRS = view.findViewById(R.id.tv_hospital_phone);
         final TextView alamatRS = view.findViewById(R.id.tv_hospital_address);
+        final Button btn_add_patient = view.findViewById(R.id.btn_add_patient);
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String idUser = user.getUid();
@@ -135,10 +138,6 @@ public class Profile extends Fragment {
                 Log.e("MyListData", "Error: ", databaseError.toException());
             }
         });
-//      Read Caretaker
-
-
-
 
     }
 

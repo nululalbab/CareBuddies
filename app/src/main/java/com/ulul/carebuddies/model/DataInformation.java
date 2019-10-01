@@ -8,8 +8,9 @@ public class DataInformation {
     String jenis_kelamin;
     String sumber_biaya;
     String role;
+    String care_taker;
 
-    public DataInformation(String nama, String alamat, String no_telp, String ttl, String jenis_kalamin, String sumber_biaya, String role) {
+    public DataInformation(String nama, String alamat, String no_telp, String ttl, String jenis_kalamin, String sumber_biaya, String role, String care_taker) {
         this.nama = nama;
         this.alamat = alamat;
         this.no_telp = no_telp;
@@ -17,9 +18,18 @@ public class DataInformation {
         this.jenis_kelamin = jenis_kalamin;
         this.sumber_biaya = sumber_biaya;
         this.role = role;
+        this.care_taker = care_taker;
     }
 
     public DataInformation() {
+        this.nama = "";
+        this.alamat = "";
+        this.no_telp = "";
+        this.ttl = "";
+        this.jenis_kelamin = "";
+        this.sumber_biaya = "";
+        this.role = "";
+        this.care_taker = "";
     }
 
     public String getNama() {
@@ -54,14 +64,6 @@ public class DataInformation {
         this.ttl = ttl;
     }
 
-    public String getJenis_kelamin() {
-        return jenis_kelamin;
-    }
-
-    public void setJenis_kalamin(String jenis_kalamin) {
-        this.jenis_kelamin = jenis_kalamin;
-    }
-
     public String getSumber_biaya() {
         return sumber_biaya;
     }
@@ -76,5 +78,21 @@ public class DataInformation {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getJenis_kelamin() {
+        return jenis_kelamin;
+    }
+
+    public void setJenis_kelamin(String jenis_kelamin) {
+        this.jenis_kelamin = jenis_kelamin;
+    }
+
+    public String getCare_taker() {
+        return care_taker;
+    }
+
+    public void setCare_taker(String care_taker) {
+        this.care_taker = care_taker;
     }
 }

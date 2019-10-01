@@ -15,5 +15,6 @@ public class PatientContract {
     public interface Presenter extends BasePresenter {
         void getList(String id);
         void getPatient(String id);
+        void connectPatient(String no_telp);
     }
 }
