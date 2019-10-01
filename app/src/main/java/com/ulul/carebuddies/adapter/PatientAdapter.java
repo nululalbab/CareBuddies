@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.model.DataInformation;
@@ -35,13 +36,17 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        TextView nama;
+        TextView no_telp;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+           nama = (TextView) itemView.findViewById(R.id.txt_nama);
+            no_telp = (TextView) itemView.findViewById(R.id.txt_no_telp);
         }
 
         public void bindItem(DataInformation item){
-
+            nama.setText(item.getNama());
+            no_telp.setText(item.getNo_telp());
         }
     }
 }

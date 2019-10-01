@@ -12,8 +12,15 @@
         android:title="History" />
 
     <item
+        android:id="@+id/navigation_patient"
+        android:icon="@drawable/ic_local_hospital_black_24dp"
+        android:title="Patient" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/icon_avatar"
         android:title="Profile" />
+
+
 
 </menu>

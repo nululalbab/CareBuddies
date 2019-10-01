@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.ulul.carebuddies.ui.fragment.History;
+import com.ulul.carebuddies.ui.fragment.Patient;
 import com.ulul.carebuddies.ui.fragment.Profile;
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.ui.fragment.Schedule;
@@ -43,6 +44,15 @@ public class NavBottomActivity extends AppCompatActivity {
                     FragmentTransaction fragmentTransaction3 = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction3.replace(R.id.content, fragment3, "FragmentName");
                     fragmentTransaction3.commit();
+
+                    return true;
+
+                case R.id.navigation_patient:
+
+                    Patient fragment4 = new Patient();
+                    FragmentTransaction fragmentTransaction4 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction4.replace(R.id.content, fragment4, "FragmentName");
+                    fragmentTransaction4.commit();
 
                     return true;
             }
