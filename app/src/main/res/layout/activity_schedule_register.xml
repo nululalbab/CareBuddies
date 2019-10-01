@@ -32,12 +32,32 @@
         android:shadowDy="4"
         android:shadowRadius="10"
         android:layout_height="wrap_content">
+
+        <Spinner
+
+            android:paddingLeft="20dp"
+            android:id="@+id/patient_schedule"
+            android:hint="Pick Patient"
+            android:backgroundTint="#FFF"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="date"/>
+
+        <View
+
+            android:id="@+id/v_separator0"
+            android:background="#E8E9E8"
+            android:layout_below="@id/patient_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
         <EditText
 
             android:paddingLeft="20dp"
 
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="20dp"
+            android:layout_below="@id/v_separator0"
             android:id="@+id/start_date"
             android:hint="Start Date"
             android:backgroundTint="#FFF"
@@ -90,16 +110,15 @@
         android:layout_below="@id/hours"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
-        <EditText
+        <Spinner
             android:id="@+id/medicine"
             android:paddingLeft="20dp"
-            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
-            android:drawablePadding="20dp"
             android:backgroundTint="#FFF"
             android:layout_below="@id/v_separator3"
             android:hint="Medicine and Dosage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            />
 
 
     </RelativeLayout>
