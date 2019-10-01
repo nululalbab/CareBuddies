@@ -2,6 +2,7 @@ package com.ulul.carebuddies.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +30,7 @@ public class PatientPresenter implements PatientContract.Presenter {
     }
 
     @Override
-    public void getList(String id) {
+    public void getList() {
         view.onLoad();
         databaseReference.child("user").addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,17 +75,30 @@ public class PatientPresenter implements PatientContract.Presenter {
     @Override
     public void connectPatient(final String no_telp) {
         view.onLoad();
-        databaseReference.child("user").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean cek = false;
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     DataInformation data = ds.getValue(DataInformation.class);
-                    if (data.getRole() == "1" && data.getNo_telp() == no_telp){
-                        data.setCare_taker(mAuth.getUid());
-                        databaseReference.child("user").child(ds.getKey()).setValue(data);
-                        view.onSuccess();
-                        break;
+                    Log.e("data connnect Patietn", data.getCare_taker() + " " + data.getRole()     + " = " + no_telp) ;
+                    if (data.getRole().equals("1") && data.getNo_telp().equals(no_telp)){
+                        if (!data.getCare_taker().equals(mAuth.getUid())){
+                            if (data.getCare_taker().equals("")){
+                                data.setCare_taker(mAuth.getUid());
+                                databaseReference.child("user").child(ds.getKey()).setValue(data);
+                                cek = true;
+                                view.onSuccess();
+                                break;
+                            } else {
+                                cek = true;
+                                view.message("Sorry, patient has registered");
+                            }
+                        } else {
+                            cek = true;
+                            view.message("Sorry, patient has registered");
+                            break;
+                        }
                     }
                 }
                 if (!cek){

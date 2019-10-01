@@ -10,12 +10,12 @@ public class DataInformation {
     String role;
     String care_taker;
 
-    public DataInformation(String nama, String alamat, String no_telp, String ttl, String jenis_kalamin, String sumber_biaya, String role, String care_taker) {
+    public DataInformation(String nama, String alamat, String no_telp, String ttl, String jenis_kelamin, String sumber_biaya, String role, String care_taker) {
         this.nama = nama;
         this.alamat = alamat;
         this.no_telp = no_telp;
         this.ttl = ttl;
-        this.jenis_kelamin = jenis_kalamin;
+        this.jenis_kelamin = jenis_kelamin;
         this.sumber_biaya = sumber_biaya;
         this.role = role;
         this.care_taker = care_taker;

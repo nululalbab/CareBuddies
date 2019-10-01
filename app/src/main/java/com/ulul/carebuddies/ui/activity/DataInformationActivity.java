@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.contract.DataInformationContract;
@@ -40,7 +41,6 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
                 presenter.setData(nama.getText().toString(), alamat.getText().toString(), no_telp.getText().toString(),
                         ttl.getText().toString(), jenis_kelamin.getText().toString(), sumber_biaya.getText().toString(), role);
                 presenter.submitData();
-                onSuccess();
                 }
         });
     }
@@ -52,7 +52,7 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
 
     @Override
     public void onLoad() {
-
+        Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -69,6 +69,6 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
 
     @Override
     public void message(String msg) {
-
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

@@ -44,7 +44,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/brnSubmit"
+        android:id="@+id/btn_submit"
         android:layout_marginRight="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"

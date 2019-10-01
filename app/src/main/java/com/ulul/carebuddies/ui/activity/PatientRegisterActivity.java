@@ -1,5 +1,6 @@
 package com.ulul.carebuddies.ui.activity;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.ulul.carebuddies.presenter.PatientPresenter;
 import java.util.List;
 
 public class PatientRegisterActivity extends AppCompatActivity implements PatientContract.View {
-    Button btn_submit;
+    FloatingActionButton btn_submit;
     EditText no_telp;
     PatientPresenter presenter;
 
@@ -24,7 +25,7 @@ public class PatientRegisterActivity extends AppCompatActivity implements Patien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_register);
 
-        btn_submit = (Button) findViewById(R.id.btn_submit);
+        btn_submit = (FloatingActionButton) findViewById(R.id.btn_submit);
         no_telp = (EditText) findViewById(R.id.no_telp);
         presenter = new PatientPresenter(this);
         presenter.setContext(this);

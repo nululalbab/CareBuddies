@@ -8,8 +8,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ulul.carebuddies.contract.DataInformationContract;
 import com.ulul.carebuddies.model.DataInformation;
 
@@ -40,15 +43,37 @@ public class DataInformationPresenter implements DataInformationContract.Present
     public void submitData() {
         view.onLoad();
 
-        databaseReference.child("user").child(mAuth.getUid()).setValue(dataInformation).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 view.onSuccess();
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    DataInformation data = ds.getValue(DataInformation.class);
+                    if (data.getNo_telp().equals(dataInformation.getNo_telp())){
+                        view.onError();
+                        view.message("Sorry, phone number used");
+                        break;
+                    } else {
+                        databaseReference.child("user").child(mAuth.getUid()).setValue(dataInformation).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                view.onSuccess();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                view.onError();
+                            }
+                        });
+                        break;
+                    }
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 view.onError();
+                view.message(databaseError.getMessage());
             }
         });
     }
