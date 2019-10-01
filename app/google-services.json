@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "590500014200",
+    "firebase_url": "https://medbuddies-9c369.firebaseio.com",
+    "project_id": "medbuddies-9c369",
+    "storage_bucket": "medbuddies-9c369.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590500014200:android:b2adff6b9107f757",
+        "android_client_info": {
+          "package_name": "com.ulul.medbuddies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590500014200-3rd49l072balo9s49amur8sb2ncpca6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ulul.medbuddies",
+            "certificate_hash": "9f02b66a9aed0ac3629c18c2bae3a8bf5e4e4522"
+          }
+        },
+        {
+          "client_id": "590500014200-h2du09g2e9lsju247irseet9kej3np0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkSpeLBOfC9hL4bnK1GsKXdaGgUFiAcLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590500014200-h2du09g2e9lsju247irseet9kej3np0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
