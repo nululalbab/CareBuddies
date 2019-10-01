@@ -38,104 +38,74 @@
 
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="20dp"
-            android:id="@+id/nama"
-            android:hint="Nama"
+            android:id="@+id/start_date"
+            android:hint="Start Date"
             android:backgroundTint="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="date"/>
 
         <View
 
             android:id="@+id/v_separator"
             android:background="#E8E9E8"
-            android:layout_below="@id/nama"
+            android:layout_below="@id/start_date"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
 
         <EditText
-            android:id="@+id/alamat"
+            android:id="@+id/end_date"
             android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="20dp"
             android:backgroundTint="#FFF"
             android:layout_below="@id/v_separator"
-            android:hint="Alamat"
+            android:hint="End Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="date"
              />
         <View
 
             android:id="@+id/v_separator2"
             android:background="#E8E9E8"
-            android:layout_below="@id/alamat"
+            android:layout_below="@id/end_date"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
         <EditText
-            android:id="@+id/no_telp"
+            android:id="@+id/hours"
             android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="20dp"
             android:backgroundTint="#FFF"
             android:layout_below="@id/v_separator2"
-            android:hint="No Telp"
+            android:hint="Cosuming Time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="time"/>
         <View
 
         android:id="@+id/v_separator3"
         android:background="#E8E9E8"
-        android:layout_below="@id/no_telp"
+        android:layout_below="@id/hours"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"/>
         <EditText
-            android:id="@+id/ttl"
+            android:id="@+id/medicine"
             android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="20dp"
             android:backgroundTint="#FFF"
             android:layout_below="@id/v_separator3"
-            android:hint="Tempat Tanggal Lahir"
+            android:hint="Medicine and Dosage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <View
 
-        android:id="@+id/v_separator4"
-        android:background="#E8E9E8"
-        android:layout_below="@id/ttl"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
-        <EditText
-            android:id="@+id/jenis_kelamin"
-            android:paddingLeft="20dp"
-            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
-            android:drawablePadding="20dp"
-            android:backgroundTint="#FFF"
-            android:layout_below="@id/v_separator4"
-            android:hint="Jenis Kelamin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <View
-
-            android:id="@+id/v_separator5"
-            android:background="#E8E9E8"
-            android:layout_below="@id/jenis_kelamin"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
-        <EditText
-            android:id="@+id/sumber_biaya"
-            android:paddingLeft="20dp"
-            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
-            android:drawablePadding="20dp"
-            android:backgroundTint="#FFF"
-            android:layout_below="@id/v_separator5"
-            android:hint="Sumber Biaya"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_submit_jadwal"
         android:layout_marginRight="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
