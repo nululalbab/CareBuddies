@@ -3,6 +3,7 @@ package com.ulul.carebuddies.presenter;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,20 +48,24 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void setData(Date start, Date end, String jam, int status, String keterangan, String patient, String medicine) {
         List<Date> range = new ArrayList<>();
-        Calendar startCalendar = new GregorianCalendar();
+        Calendar startCalendar = Calendar.getInstance();
         startCalendar.setTime(start);
 
-        Calendar endCalendar = new GregorianCalendar();
+        Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(end);
+        endCalendar.add(Calendar.DATE, 1);
 
         while (startCalendar.before(endCalendar)){
             Date result = startCalendar.getTime();
+//            view.message(String.valueOf(result));
             range.add(result);
             startCalendar.add(Calendar.DATE, 1);
         }
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         for (Date d: range){
-            String jadwal = String.valueOf(d.getDay()) + "-" + String.valueOf(d.getMonth()) + "-" + String.valueOf(d.getYear());
+            String jadwal = formatter.format(d);
+            Log.e("e", jadwal);
             Schedule in = new Schedule(jadwal, jam, status, keterangan, "" , patient, medicine);
             in.setCare_taker(mAuth.getUid());
             listSchedule.add(in);

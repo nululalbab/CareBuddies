@@ -122,7 +122,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
                     Date end = format.parse(end_date.getText().toString());
                     schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", "oNUurmaxr4blpa0NMrJ8nvL5wPC3", "obat1");
                     schedulePresenter.submitData();
-                    Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(start.getMonth() +1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
                 }catch (ParseException e){
 
                 }
@@ -179,7 +179,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
 
     @Override
     public void message(String msg) {
-
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
