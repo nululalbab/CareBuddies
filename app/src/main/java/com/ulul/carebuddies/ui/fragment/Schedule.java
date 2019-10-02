@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.contract.PatientContract;
 import com.ulul.carebuddies.contract.ScheduleContract;
@@ -22,6 +24,7 @@ import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.presenter.PatientPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
 import com.ulul.carebuddies.ui.activity.ScheduleRegisterActivity;
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +50,7 @@ public class Schedule extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        MaterialCalendarView materialCalendarView;
         super.onViewCreated(view, savedInstanceState);
 
         fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
@@ -58,14 +62,23 @@ public class Schedule extends Fragment {
         });
 
         //deklarasi widget yang ada di layout activity_main
-        materialCalendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
+        materialCalendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
         materialCalendarView.state().edit()
-                .setFirstDayOfWeek(Calendar.WEDNESDAY)
                 .setMinimumDate(CalendarDay.from(1900, 1, 1))
                 .setMaximumDate(CalendarDay.from(2045, 12, 31))
                 // Maksud dari MONTHS adalah calender tersebut akan tampil berbentuk 4 minggu atau 1 bulan
                 // jika calendar mode tersebut di ganti menjadi WEEKS maka akan yang tampil akan 1 minggu
-                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
+
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                //menampilkan toast jika berhasil di klik
+                Toast.makeText(getActivity(), "" + date, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }
