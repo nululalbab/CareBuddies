@@ -53,7 +53,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
         android:background="#E8E9E8" />
-    
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarView"
+        android:layout_below="@id/v_separator_schedule"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="#00F"/>
+
 
 <!--    <TextView-->
 <!--        android:id="@+id/tv_today_title"-->
