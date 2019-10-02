@@ -45,7 +45,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     }
 
     @Override
-    public void setData(Date start, Date end, String jam, String status, String keterangan, String care_taker, String patient, String medicine) {
+    public void setData(Date start, Date end, String jam, int status, String keterangan, String patient, String medicine) {
         List<Date> range = new ArrayList<>();
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(start);
@@ -60,14 +60,18 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
         }
 
         for (Date d: range){
-            listSchedule.add(new Schedule(d.toString(), jam, status, keterangan, care_taker, patient, medicine));
+            String jadwal = String.valueOf(d.getDay()) + "-" + String.valueOf(d.getMonth()) + "-" + String.valueOf(d.getYear());
+            Schedule in = new Schedule(jadwal, jam, status, keterangan, "" , patient, medicine);
+            in.setCare_taker(mAuth.getUid());
+            listSchedule.add(in);
         }
     }
 
     @Override
     public void submitData() {
+        view.onLoad();
         for (Schedule s: listSchedule){
-            databaseReference.child("schedule").setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
+            databaseReference.child("schedule").push().setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     view.onSuccess();

@@ -24,9 +24,11 @@ import com.ulul.carebuddies.model.Schedule;
 import com.ulul.carebuddies.presenter.PatientPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,7 +103,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         medicine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                adapter.getItem(i);
+//                adapter.getItem(i);
             }
 
             @Override
@@ -113,6 +115,17 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         btn_submit_jadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                try {
+                    Date start = format.parse(start_date.getText().toString());
+                    Date end = format.parse(end_date.getText().toString());
+                    schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", "oNUurmaxr4blpa0NMrJ8nvL5wPC3", "obat1");
+                    schedulePresenter.submitData();
+                    Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(start.getMonth() +1), Toast.LENGTH_SHORT).show();
+                }catch (ParseException e){
+
+                }
 
             }
         });

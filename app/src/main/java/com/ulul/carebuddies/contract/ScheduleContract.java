@@ -17,7 +17,7 @@ public class ScheduleContract {
     }
 
     public interface Presenter extends BasePresenter {
-        void setData(Date start, Date end, String jam, String status, String keterangan, String care_taker,
+        void setData(Date start, Date end, String jam, int status, String keterangan,
                      String patient, String medicine);
         void submitData();
 

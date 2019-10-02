@@ -60,9 +60,11 @@
             android:id="@+id/start_date"
             android:hint="Start Date"
             android:backgroundTint="#FFF"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"/>
+            android:inputType="date"
+            android:focusable="false"/>
 
         <View
 
@@ -87,7 +89,8 @@
             android:hint="End Date"
             android:inputType="date"
             android:paddingLeft="20dp"
-            android:text="" />
+            android:clickable="true"
+            android:focusable="false"/>
         <View
 
             android:id="@+id/v_separator2"
@@ -106,7 +109,8 @@
             android:hint="Cosuming Time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="time"/>
+            android:inputType="time"
+            android:focusable="false"/>
         <View
 
         android:id="@+id/v_separator3"

@@ -1,15 +1,17 @@
 package com.ulul.carebuddies.model;
 
+import android.support.annotation.Nullable;
+
 public class Schedule {
     String jadwal;
     String jam;
-    String status;
+    int status;
     String keterangan;
     String care_taker;
     String patient;
     String medicine;
 
-    public Schedule(String jadwal, String jam, String status, String keterangan, String care_taker, String patient, String medicine) {
+    public Schedule(String jadwal, String jam, int status, String keterangan, @Nullable String care_taker, String patient, String medicine) {
         this.jadwal = jadwal;
         this.jam = jam;
         this.status = status;
@@ -35,11 +37,11 @@ public class Schedule {
         this.jam = jam;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

@@ -24,7 +24,6 @@ import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.presenter.PatientPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
 import com.ulul.carebuddies.ui.activity.ScheduleRegisterActivity;
-import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
