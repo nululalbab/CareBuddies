@@ -1,7 +1,9 @@
 package com.ulul.carebuddies.presenter;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.widget.DatePicker;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -17,11 +19,14 @@ import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class SchedulePresenter implements ScheduleContract.Presenter{
     ScheduleContract.View view;
@@ -30,6 +35,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     List<Schedule> listSchedule;
     DatabaseReference databaseReference;
     FirebaseUser mAuth;
+
 
     public SchedulePresenter(ScheduleContract.View view){
         this.view = view;
@@ -123,4 +129,5 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     public void setContext(Context context) {
         this.context = context;
     }
+
 }
