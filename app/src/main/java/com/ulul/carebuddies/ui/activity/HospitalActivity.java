@@ -27,7 +27,7 @@ public class HospitalActivity extends AppCompatActivity implements HospitalContr
         FloatingActionButton btn_submit_hospital = findViewById(R.id.btn_submit_hospital);
 
         nama_rumahsakit = (EditText) findViewById(R.id.nama_rumahsakit);
-        no_telp_rumahsakit = (EditText) findViewById(R.id.no_telp_rumahsakit);
+        no_telp_rumahsakit = (EditText) findViewById(R.id.no_telp_patient);
         alamat_rumahsakit = (EditText) findViewById(R.id.alamat_rumahsakit);
 
         btn_submit_hospital.setOnClickListener(new View.OnClickListener() {

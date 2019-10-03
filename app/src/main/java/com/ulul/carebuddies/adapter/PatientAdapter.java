@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.model.DataInformation;
@@ -26,8 +27,9 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PatientAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull PatientAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.bindItem(list.get(i));
+
     }
 
     @Override

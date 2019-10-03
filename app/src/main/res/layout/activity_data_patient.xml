@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E9E8"
-    tools:context=".ui.activity.DataInformationActivity">
+    tools:context=".ui.activity.DataPatientActivity">
     <ImageView
         android:src="@drawable/login_kiri_atas"
         android:layout_width="wrap_content"
@@ -32,28 +32,27 @@
         android:shadowDy="4"
         android:shadowRadius="10"
         android:layout_height="wrap_content">
-        <EditText
+        <TextView
 
             android:paddingLeft="20dp"
-
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="20dp"
-            android:id="@+id/nama_rumahsakit"
+            android:id="@+id/tv_nama_patient"
             android:hint="Nama Rumah Sakit"
             android:backgroundTint="#FFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp" />
 
         <View
 
             android:id="@+id/v_separator"
             android:background="#E8E9E8"
-            android:layout_below="@id/nama_rumahsakit"
+            android:layout_below="@id/tv_nama_patient"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
 
-        <EditText
-            android:id="@+id/alamat_rumahsakit"
+        <TextView
+            android:id="@+id/tv_alamat_patient"
             android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="20dp"
@@ -62,16 +61,16 @@
             android:hint="Alamat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             />
+            />
         <View
 
             android:id="@+id/v_separator2"
             android:background="#E8E9E8"
-            android:layout_below="@id/alamat_rumahsakit"
+            android:layout_below="@id/tv_alamat_patient"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
-        <EditText
-            android:id="@+id/no_telp_patient"
+        <TextView
+            android:id="@+id/tv_no_telp_patient"
             android:paddingLeft="20dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawablePadding="20dp"
@@ -82,11 +81,55 @@
             android:layout_height="wrap_content" />
         <View
 
-        android:id="@+id/v_separator3"
-        android:background="#E8E9E8"
-        android:layout_below="@id/no_telp"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"/>
+            android:id="@+id/v_separator3"
+            android:background="#E8E9E8"
+            android:layout_below="@id/tv_no_telp_patient"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_ttl"
+            android:paddingLeft="20dp"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawablePadding="20dp"
+            android:backgroundTint="#FFF"
+            android:layout_below="@id/v_separator3"
+            android:hint="TTL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+
+            android:id="@+id/v_separator4"
+            android:background="#E8E9E8"
+            android:layout_below="@id/tv_ttl"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+        android:id="@+id/tv_jenis_kelamin"
+            android:paddingLeft="20dp"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawablePadding="20dp"
+            android:backgroundTint="#FFF"
+            android:layout_below="@id/v_separator4"
+            android:hint="Jenis Kelamin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+
+            android:id="@+id/v_separator5"
+            android:background="#E8E9E8"
+            android:layout_below="@id/tv_jenis_kelamin"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_sumber_biaya"
+            android:paddingLeft="20dp"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawablePadding="20dp"
+            android:backgroundTint="#FFF"
+            android:layout_below="@id/v_separator5"
+            android:hint="Sumber Biaya"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
@@ -95,7 +138,7 @@
         android:layout_marginRight="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_check_black_24dp"
+        app:srcCompat="@drawable/ic_call_black_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -106,7 +149,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:text="Hospital"
+        android:text="Patient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
