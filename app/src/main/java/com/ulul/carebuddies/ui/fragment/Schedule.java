@@ -79,7 +79,5 @@ public class Schedule extends Fragment {
         });
 
 
-
-
     }
 }
