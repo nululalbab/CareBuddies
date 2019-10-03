@@ -4,6 +4,7 @@ public class Hospital {
     String nama_rumahsakit;
     String alamat_rumahsakit;
     String no_telp_rumahsakit;
+    String key;
 
     public Hospital(String nama_rumahsakit, String alamat_rumahsakit, String no_telp_rumahsakit) {
         this.nama_rumahsakit = nama_rumahsakit;
@@ -13,6 +14,14 @@ public class Hospital {
 
     public Hospital(){
 
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getNama_rumahsakit() {

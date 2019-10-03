@@ -3,6 +3,7 @@ package com.ulul.carebuddies.model;
 import android.support.annotation.Nullable;
 
 public class Schedule {
+    String key;
     String jadwal;
     String jam;
     int status;
@@ -19,6 +20,14 @@ public class Schedule {
         this.care_taker = care_taker;
         this.patient = patient;
         this.medicine = medicine;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getJadwal() {

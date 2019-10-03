@@ -39,7 +39,9 @@ public class PatientPresenter implements PatientContract.Presenter {
                 Log.e("uid care taker ", mAuth.getUid());
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     if (ds.getValue(DataInformation.class).getCare_taker().equals(mAuth.getUid())){
-                        list.add(ds.getValue(DataInformation.class));
+                        DataInformation d = ds.getValue(DataInformation.class);
+                        d.setKey(ds.getKey());
+                        list.add(d);
                     }
                 }
                 view.listPatient(list);

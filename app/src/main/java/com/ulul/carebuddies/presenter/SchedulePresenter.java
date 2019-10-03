@@ -8,6 +8,7 @@ import android.widget.DatePicker;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.carebuddies.contract.ScheduleContract;
+import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
 
@@ -36,13 +38,20 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     List<Schedule> listSchedule;
     DatabaseReference databaseReference;
     FirebaseUser mAuth;
+    String idMedicine;
+    String idPatient;
 
 
     public SchedulePresenter(ScheduleContract.View view){
         this.view = view;
+
         listSchedule = new ArrayList<>();
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+        idMedicine = "";
+        idPatient = "";
     }
 
     @Override
@@ -66,7 +75,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
         for (Date d: range){
             String jadwal = formatter.format(d);
             Log.e("e", jadwal);
-            Schedule in = new Schedule(jadwal, jam, status, keterangan, "" , patient, medicine);
+            Schedule in = new Schedule(jadwal, jam, status, keterangan, mAuth.getUid() , patient, medicine);
             in.setCare_taker(mAuth.getUid());
             listSchedule.add(in);
         }
@@ -76,16 +85,28 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     public void submitData() {
         view.onLoad();
         for (Schedule s: listSchedule){
-            databaseReference.child("schedule").push().setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    view.onSuccess();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
+            String uiSchedule = databaseReference.child("schedule").push().getKey();
+            databaseReference.child("schedule").child(uiSchedule).setValue(s).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     view.onError();
                     view.message(e.getMessage());
+                }
+            });
+
+            databaseReference.child("user").child(idPatient).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        DataInformation di = (DataInformation) dataSnapshot.getValue();
+                        
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    view.onError();
+                    view.message(databaseError.getMessage());
                 }
             });
         }
@@ -120,6 +141,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 List<Medicine> list = new ArrayList<>();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Medicine m = ds.getValue(Medicine.class);
+                    m.setKey(ds.getKey());
                     list.add(m);
                 }
                 view.listMedicine(list);
@@ -132,6 +154,16 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 view.message(databaseError.getMessage());
             }
         });
+    }
+
+    @Override
+    public void setPatient(String id) {
+        idPatient = id;
+    }
+
+    @Override
+    public void setMedicine(String id) {
+        idMedicine = id;
     }
 
     @Override

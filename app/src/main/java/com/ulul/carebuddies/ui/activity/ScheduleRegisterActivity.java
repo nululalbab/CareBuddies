@@ -47,6 +47,9 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
     DatePickerDialog datePickerDialog;
     SimpleDateFormat dateFormatter;
     TimePickerDialog timePickerDialog;
+
+    String idMedicine;
+    String idPatient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,9 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         patient_schedule = (Spinner) findViewById(R.id.patient_schedule);
         medicine = (Spinner) findViewById(R.id.medicine);
         btn_submit_jadwal = (FloatingActionButton) findViewById(R.id.btn_submit_jadwal);
+
+        this.idMedicine = "";
+        this.idPatient = "";
 
         listPatient = new ArrayList<>();
         listMedicine = new ArrayList<>();
@@ -100,14 +106,27 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
                 showTimeDialog(hours);
             }
         });
+
         medicine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                adapter.getItem(i);
+                idMedicine = listMedicine.get(i).getKey();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        patient_schedule.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                idPatient = listPatient.get(position).getKey();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -117,14 +136,19 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
             public void onClick(View view) {
 
                 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                try {
-                    Date start = format.parse(start_date.getText().toString());
-                    Date end = format.parse(end_date.getText().toString());
-                    schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", "oNUurmaxr4blpa0NMrJ8nvL5wPC3", "obat1");
-                    schedulePresenter.submitData();
-                    Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
-                }catch (ParseException e){
-
+                if (start_date.getText().toString().equals("") || end_date.getText().toString().equals("")
+                        || hours.getText().toString().equals("") || idPatient.equals("") || idMedicine.equals("")){
+                    Toast.makeText(ScheduleRegisterActivity.this, "Start date, end date, hours, patiend, and medicine are mandatory", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        Date start = format.parse(start_date.getText().toString());
+                        Date end = format.parse(end_date.getText().toString());
+                        schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", idPatient, idMedicine);
+                        schedulePresenter.submitData();
+                        Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
+                    }catch (ParseException e){
+                        Toast.makeText(ScheduleRegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }

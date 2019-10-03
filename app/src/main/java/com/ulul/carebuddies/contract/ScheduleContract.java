@@ -28,5 +28,8 @@ public class ScheduleContract {
         void getInformationStatusone(String id);
 
         void getListMedicine();
+
+        void setPatient(String id);
+        void setMedicine(String id);
     }
 }

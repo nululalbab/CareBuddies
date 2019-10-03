@@ -1,6 +1,7 @@
 package com.ulul.carebuddies.model;
 
 public class DataInformation {
+    String key;
     String nama;
     String alamat;
     String no_telp;
@@ -30,6 +31,14 @@ public class DataInformation {
         this.sumber_biaya = "";
         this.role = "";
         this.care_taker = "";
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getNama() {

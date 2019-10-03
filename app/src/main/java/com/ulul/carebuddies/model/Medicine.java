@@ -2,11 +2,20 @@ package com.ulul.carebuddies.model;
 
 public class Medicine {
     String nama_obat;
+    String key;
 
     public Medicine(String nama_obat) {
         this.nama_obat = nama_obat;
     }
     public Medicine(){}
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getNama_obat() {
         return nama_obat;
