@@ -192,11 +192,14 @@
 
 
     </RelativeLayout>
-
-
-
-
-
-
-
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:background="@color/colorRed"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/card2"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="20dp"/>
 </RelativeLayout>

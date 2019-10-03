@@ -84,8 +84,8 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void submitData() {
         view.onLoad();
-        for (Schedule s: listSchedule){
-            String uiSchedule = databaseReference.child("schedule").push().getKey();
+        for (final Schedule s: listSchedule){
+            final String uiSchedule = databaseReference.child("schedule").push().getKey();
             databaseReference.child("schedule").child(uiSchedule).setValue(s).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -98,8 +98,9 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){
-                        DataInformation di = (DataInformation) dataSnapshot.getValue();
-                        
+                        DataInformation di = dataSnapshot.getValue(DataInformation.class);
+                        databaseReference.child("user").child(mAuth.getUid()).child("pasien").child(idPatient).child("schedule").child(uiSchedule)
+                                .setValue(s);
                     }
                 }
 

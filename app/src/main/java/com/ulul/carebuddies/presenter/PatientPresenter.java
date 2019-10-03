@@ -90,8 +90,8 @@ public class PatientPresenter implements PatientContract.Presenter {
                             if (data.getCare_taker().equals("")){
                                 data.setCare_taker(mAuth.getUid());
                                 databaseReference.child("user").child(ds.getKey()).setValue(data);
+                                databaseReference.child("user").child(mAuth.getUid()).child("pasien").child(ds.getKey()).setValue(data);
                                 cek = true;
-                                view.onSuccess();
                                 break;
                             } else {
                                 cek = true;
