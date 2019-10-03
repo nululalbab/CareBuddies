@@ -134,7 +134,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_submit_hospital"
+        android:id="@+id/fab_call_patient"
         android:layout_marginRight="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
