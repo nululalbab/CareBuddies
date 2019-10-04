@@ -75,7 +75,7 @@ public class DataScheduleActivity extends AppCompatActivity{
                         @Override
                         public void onClick(View view){
                             try {
-                                
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

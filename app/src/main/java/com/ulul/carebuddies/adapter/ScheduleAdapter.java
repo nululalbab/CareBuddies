@@ -47,17 +47,21 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         TextView txt_jadwal;
         TextView txt_jam;
         TextView txt_obat;
+        TextView txt_nama_jadwal;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
            txt_jadwal = (TextView) itemView.findViewById(R.id.txt_jadwal);
             txt_jam = (TextView) itemView.findViewById(R.id.txt_jam);
             txt_obat = (TextView) itemView.findViewById(R.id.txt_obat);
+            txt_nama_jadwal = (TextView) itemView.findViewById(R.id.txt_nama_jadwal);
         }
 
         public void bindItem(Schedule item){
             txt_jadwal.setText(item.getJadwal());
             txt_jam.setText(item.getJam());
             txt_obat.setText(item.getDetail_medicine().getNama_obat());
+            txt_nama_jadwal.setText(item.getDetail_patient().getNama());
+
         }
     }
 }

@@ -2,12 +2,13 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
         card_view:cardElevation="1dp"
     card_view:cardCornerRadius="20dp"
     card_view:cardUseCompatPadding="true"
     android:layout_centerInParent="true"
+    android:layout_gravity="center_horizontal"
     >
 
     <android.support.constraint.ConstraintLayout
@@ -15,27 +16,39 @@
         android:layout_below="@id/tv_today_title"
         android:orientation="horizontal"
         android:background="@drawable/bg_pill"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
 
-        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:src="@drawable/pill"
-            android:layout_marginLeft="20dp"
-            android:id="@+id/img_pill"
-            card_view:layout_constraintLeft_toLeftOf="@id/card2"
-            card_view:layout_constraintBaseline_toBaselineOf="@id/card2"/>
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:orientation="vertical"
-            card_view:layout_constraintBaseline_toBaselineOf="@id/img_pill"
-            card_view:layout_constraintLeft_toRightOf="@id/img_pill">
+            android:orientation="horizontal"
+            card_view:layout_constraintBaseline_toBaselineOf="parent"
+            card_view:layout_constraintLeft_toRightOf="parent">
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:src="@drawable/pill"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/img_pill"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+            />
+            <TextView
+                android:id="@+id/txt_nama_jadwal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:layout_marginLeft="20dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintLeft_toRightOf="@id/img_pill"/>
             <TextView
                 android:id="@+id/txt_jadwal"
                 android:layout_width="wrap_content"
@@ -43,7 +56,10 @@
                 android:text="08-10-2019"
                 android:textColor="#fff"
                 android:textSize="18dp"
-                card_view:layout_constraintTop_toTopOf="parent"/>
+                android:layout_marginLeft="20dp"
+                card_view:layout_constraintTop_toBottomOf="@id/txt_nama_jadwal"
+                card_view:layout_constraintLeft_toRightOf="@id/img_pill"
+                />
 
             <TextView
                 android:id="@+id/txt_jam"
@@ -52,9 +68,9 @@
                 android:text="07:00"
                 android:textColor="#fff"
                 android:textSize="18dp"
-                android:layout_marginLeft="40dp"
-                card_view:layout_constraintLeft_toRightOf="@id/txt_jadwal"
-                card_view:layout_constraintBaseline_toBaselineOf="@id/txt_jadwal"/>
+                android:layout_marginLeft="20dp"
+                card_view:layout_constraintBaseline_toBaselineOf="@id/txt_jadwal"
+                card_view:layout_constraintRight_toRightOf="parent"/>
 
             <TextView
                 android:id="@+id/txt_obat"
