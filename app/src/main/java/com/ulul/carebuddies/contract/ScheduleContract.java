@@ -21,6 +21,8 @@ public class ScheduleContract {
                      String patient, String medicine);
         void submitData();
 
+        void approvalSchedule(String id, String keterangan);
+
         void listScheduleById(String id);
         void listScheduleByDate(String date);
 

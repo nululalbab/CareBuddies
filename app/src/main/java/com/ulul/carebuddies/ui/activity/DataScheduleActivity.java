@@ -1,5 +1,6 @@
 package com.ulul.carebuddies.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,17 +26,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.carebuddies.R;
+import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
 import com.ulul.carebuddies.presenter.HospitalPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
 
+import java.util.List;
+
 import static android.Manifest.permission.CALL_PHONE;
 
-public class DataScheduleActivity extends AppCompatActivity{
+public class DataScheduleActivity extends AppCompatActivity implements ScheduleContract.View {
 
     SchedulePresenter presenter;
+
+    ProgressDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +53,11 @@ public class DataScheduleActivity extends AppCompatActivity{
         final DatabaseReference getRefenence = getDatabase.getReference();
 
 
+        dialog = new ProgressDialog(DataScheduleActivity.this);
+        dialog.setMessage("Loading. Please wait...");
+
+        presenter = new SchedulePresenter(this);
+        presenter.setContext(this);
 
 
         final TextView tv_nama_schedule = (TextView) findViewById(R.id.tv_nama_schedule);
@@ -56,6 +68,7 @@ public class DataScheduleActivity extends AppCompatActivity{
         final FloatingActionButton fab_approve = (FloatingActionButton)findViewById(R.id.fab_approve);
         final String key = getIntent().getStringExtra("data1");
         Log.d("Key di Intent","Value : "+ key);
+
         getRefenence.child("schedule").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,7 +88,7 @@ public class DataScheduleActivity extends AppCompatActivity{
                         @Override
                         public void onClick(View view){
                             try {
-                                
+                                presenter.approvalSchedule(key, et_keterangan_patient.getText().toString());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -96,5 +109,52 @@ public class DataScheduleActivity extends AppCompatActivity{
 
 
 
+    }
+
+    @Override
+    public void listSchedule(List<Schedule> list) {
+
+    }
+
+    @Override
+    public void informationStatusAll(List<Schedule> finish, List<Schedule> unfinish) {
+
+    }
+
+    @Override
+    public void informatinoStatusOne(List<Schedule> finish, List<Schedule> unfinish) {
+
+    }
+
+    @Override
+    public void listMedicine(List<Medicine> list) {
+
+    }
+
+    @Override
+    public void setPresenter(Object presenter) {
+
+    }
+
+    @Override
+    public void onLoad() {
+        dialog.show();
+    }
+
+    @Override
+    public void onError() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onSuccess() {
+        Toast.makeText(this, "Success approve", Toast.LENGTH_SHORT).show();
+        dialog.show();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void message(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

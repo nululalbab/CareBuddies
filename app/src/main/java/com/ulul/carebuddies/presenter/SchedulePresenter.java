@@ -191,6 +191,40 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     }
 
     @Override
+    public void approvalSchedule(final String id, final String keterangan) {
+        view.onLoad();
+        databaseReference.child("schedule").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    Schedule s = dataSnapshot.getValue(Schedule.class);
+                    s.setKeterangan(keterangan);
+                    s.setStatus(1);
+
+                    databaseReference.child("schedule").child(id).setValue(s).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            view.onSuccess();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            view.onError();
+                            view.message(e.getMessage());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void listScheduleById(String id) {
 
     }
