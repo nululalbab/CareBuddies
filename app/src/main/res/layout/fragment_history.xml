@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="350dp"
             android:layout_height="wrap_content">
-            <CalendarView
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
 
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
@@ -39,7 +39,7 @@
                 android:dateTextAppearance="@style/CalenderViewDateCustomText"
                 android:weekDayTextAppearance="@style/CalenderViewWeekCustomText">
 
-            </CalendarView>
+            </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
         </LinearLayout>
 
         <View
