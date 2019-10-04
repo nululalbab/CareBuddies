@@ -1,6 +1,7 @@
 package com.ulul.carebuddies.ui.activity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ulul.carebuddies.R;
+import com.ulul.carebuddies.adapter.ScheduleAdapter;
 import com.ulul.carebuddies.contract.PatientContract;
 import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.DataInformation;
@@ -50,6 +53,10 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
 
     String idMedicine;
     String idPatient;
+
+    ProgressDialog dialog;
+
+    ScheduleAdapter scheduleAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,9 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         patient_schedule = (Spinner) findViewById(R.id.patient_schedule);
         medicine = (Spinner) findViewById(R.id.medicine);
         btn_submit_jadwal = (FloatingActionButton) findViewById(R.id.btn_submit_jadwal);
+
+        dialog = new ProgressDialog(ScheduleRegisterActivity.this);
+        dialog.setMessage("Loading. Please wait...");
 
         this.idMedicine = "";
         this.idPatient = "";
@@ -144,7 +154,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
                         Date start = format.parse(start_date.getText().toString());
                         Date end = format.parse(end_date.getText().toString());
                         schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", idPatient, idMedicine);
-                        schedulePresenter.submitData();
+//                        schedulePresenter.submitData();
                         Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
                     }catch (ParseException e){
                         Toast.makeText(ScheduleRegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -188,17 +198,17 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
 
     @Override
     public void onLoad() {
-
+        dialog.show();
     }
 
     @Override
     public void onError() {
-
+        dialog.dismiss();
     }
 
     @Override
     public void onSuccess() {
-
+        dialog.dismiss();
     }
 
     @Override
@@ -216,7 +226,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
         patient_schedule.setAdapter(adapter);
 
-        Toast.makeText(this, String.valueOf(list.size()), Toast.LENGTH_SHORT).show();
+        dialog.dismiss();
     }
 
     @Override

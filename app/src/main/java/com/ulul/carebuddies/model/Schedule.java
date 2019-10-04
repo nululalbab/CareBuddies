@@ -11,8 +11,12 @@ public class Schedule {
     String care_taker;
     String patient;
     String medicine;
+    DataInformation detail_care_taker;
+    DataInformation detail_patient;
+    Medicine detail_medicine;
 
-    public Schedule(String jadwal, String jam, int status, String keterangan, @Nullable String care_taker, String patient, String medicine) {
+    public Schedule(String jadwal, String jam, int status, String keterangan, @Nullable String care_taker, String patient,
+                    String medicine, DataInformation detail_care_taker, DataInformation detail_patient, Medicine detail_medicine) {
         this.jadwal = jadwal;
         this.jam = jam;
         this.status = status;
@@ -20,6 +24,36 @@ public class Schedule {
         this.care_taker = care_taker;
         this.patient = patient;
         this.medicine = medicine;
+        this.detail_care_taker = detail_care_taker;
+        this.detail_patient = detail_patient;
+        this.detail_medicine = detail_medicine;
+    }
+
+    public Schedule() {
+    }
+
+    public Medicine getDetail_medicine() {
+        return detail_medicine;
+    }
+
+    public void setDetail_medicine(Medicine detail_medicine) {
+        this.detail_medicine = detail_medicine;
+    }
+
+    public DataInformation getDetail_care_taker() {
+        return detail_care_taker;
+    }
+
+    public void setDetail_care_taker(DataInformation detail_care_taker) {
+        this.detail_care_taker = detail_care_taker;
+    }
+
+    public DataInformation getDetail_patient() {
+        return detail_patient;
+    }
+
+    public void setDetail_patient(DataInformation detail_patient) {
+        this.detail_patient = detail_patient;
     }
 
     public String getKey() {

@@ -7,7 +7,9 @@ public class Medicine {
     public Medicine(String nama_obat) {
         this.nama_obat = nama_obat;
     }
-    public Medicine(){}
+    public Medicine(){
+        this.nama_obat = "";
+    }
 
     public String getKey() {
         return key;

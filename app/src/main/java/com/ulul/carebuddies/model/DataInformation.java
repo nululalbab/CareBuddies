@@ -1,5 +1,8 @@
 package com.ulul.carebuddies.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataInformation {
     String key;
     String nama;

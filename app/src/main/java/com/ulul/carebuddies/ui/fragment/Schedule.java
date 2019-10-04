@@ -7,9 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -17,6 +20,7 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.ulul.carebuddies.R;
+import com.ulul.carebuddies.adapter.ScheduleAdapter;
 import com.ulul.carebuddies.contract.PatientContract;
 import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.DataInformation;
@@ -33,8 +37,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Schedule extends Fragment {
+public class Schedule extends Fragment implements ScheduleContract.View {
     FloatingActionButton fab_add;
+    RecyclerView recycler_view_schedule;
+    SchedulePresenter presenter;
+    List<com.ulul.carebuddies.model.Schedule> dataList;
+    ScheduleAdapter adapter;
 
     public Schedule() {
     }
@@ -60,6 +68,16 @@ public class Schedule extends Fragment {
             }
         });
 
+
+        recycler_view_schedule = view.findViewById(R.id.recycler_view);
+        presenter = new SchedulePresenter(this);
+
+        adapter = new ScheduleAdapter(new ArrayList<com.ulul.carebuddies.model.Schedule>());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recycler_view_schedule.setLayoutManager(layoutManager);
+
+        recycler_view_schedule.setAdapter(adapter);
+
         //deklarasi widget yang ada di layout activity_main
         materialCalendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
         materialCalendarView.state().edit()
@@ -74,12 +92,55 @@ public class Schedule extends Fragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 //menampilkan toast jika berhasil di klik
-                Toast.makeText(getActivity(), "" + date, Toast.LENGTH_SHORT).show();
+                presenter.listScheduleByDate(String.valueOf(date.getDate()));
             }
         });
+    }
 
+    @Override
+    public void listSchedule(List<com.ulul.carebuddies.model.Schedule> list) {
+        this.dataList = list;
+        adapter.updateList(list);
+        adapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void informationStatusAll(List<com.ulul.carebuddies.model.Schedule> finish, List<com.ulul.carebuddies.model.Schedule> unfinish) {
 
+    }
+
+    @Override
+    public void informatinoStatusOne(List<com.ulul.carebuddies.model.Schedule> finish, List<com.ulul.carebuddies.model.Schedule> unfinish) {
+
+    }
+
+    @Override
+    public void listMedicine(List<Medicine> list) {
+
+    }
+
+    @Override
+    public void setPresenter(Object presenter) {
+
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void message(String msg) {
 
     }
 }

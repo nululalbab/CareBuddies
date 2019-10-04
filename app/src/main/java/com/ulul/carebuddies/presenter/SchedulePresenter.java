@@ -41,6 +41,13 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     String idMedicine;
     String idPatient;
 
+    DataInformation detailPatient;
+    DataInformation detailCareTaker;
+
+    Medicine detailMedicine;
+    List<Date> range;
+    SimpleDateFormat formatter;
+
 
     public SchedulePresenter(ScheduleContract.View view){
         this.view = view;
@@ -52,11 +59,15 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
 
         idMedicine = "";
         idPatient = "";
+
+        detailCareTaker = new DataInformation();
+        detailPatient = new DataInformation();
+        detailMedicine = new Medicine();
     }
 
     @Override
-    public void setData(Date start, Date end, String jam, int status, String keterangan, String patient, String medicine) {
-        List<Date> range = new ArrayList<>();
+    public void setData(Date start, Date end, final String jam, final int status, final String keterangan, final String patient, final String medicine) {
+        range = new ArrayList<>();
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.setTime(start);
 
@@ -71,19 +82,82 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
             startCalendar.add(Calendar.DATE, 1);
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        for (Date d: range){
-            String jadwal = formatter.format(d);
-            Log.e("e", jadwal);
-            Schedule in = new Schedule(jadwal, jam, status, keterangan, mAuth.getUid() , patient, medicine);
-            in.setCare_taker(mAuth.getUid());
-            listSchedule.add(in);
-        }
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        if (ds.getKey().equals("user")){
+                            Log.e("masuk user", "oke");
+                            for (DataSnapshot user: ds.getChildren()){
+                                if (user.getKey().equals(patient)){
+                                    detailPatient = user.getValue(DataInformation.class);
+                                }
+                                if (user.getKey().equals(mAuth.getUid())){
+                                    detailCareTaker = user.getValue(DataInformation.class);
+                                }
+                            }
+                        } else if (ds.getKey().equals("obat")) {
+                            for (DataSnapshot obat : ds.getChildren()) {
+                                if (obat.getKey().equals(medicine)){
+                                    detailMedicine = obat.getValue(Medicine.class);
+                                }
+                            }
+                        }
+                    }
+                    for (Date d: range){
+                        String jadwal = formatter.format(d);
+                        Log.e("e", jadwal);
+                        Schedule in = new Schedule(jadwal, jam, status, keterangan, mAuth.getUid() , patient, medicine, detailCareTaker, detailPatient, detailMedicine);
+                        in.setCare_taker(mAuth.getUid());
+                        listSchedule.add(in);
+                    }
+                    submitData();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+
+//        databaseReference.child("obat").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot ds: dataSnapshot.getChildren()){
+//                    Medicine m = ds.getValue(Medicine.class);
+//                    if(ds.getKey().equals(medicine)){
+//                        Log.e("medicine ", "true");
+//                        detailMedicine = m;
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                view.onError();
+//                view.message(databaseError.getMessage());
+//            }
+//        });
+
+//        for (Date d: range){
+//            String jadwal = formatter.format(d);
+//            Log.e("e", jadwal);
+//            Schedule in = new Schedule(jadwal, jam, status, keterangan, mAuth.getUid() , patient, medicine, detailCareTaker, detailPatient, detailMedicine);
+//            in.setCare_taker(mAuth.getUid());
+//            listSchedule.add(in);
+//        }
+//        submitData();
     }
 
     @Override
     public void submitData() {
-        view.onLoad();
+//        view.onLoad();
         for (final Schedule s: listSchedule){
             final String uiSchedule = databaseReference.child("schedule").push().getKey();
             databaseReference.child("schedule").child(uiSchedule).setValue(s).addOnFailureListener(new OnFailureListener() {
@@ -99,7 +173,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){
                         DataInformation di = dataSnapshot.getValue(DataInformation.class);
-                        databaseReference.child("user").child(mAuth.getUid()).child("pasien").child(idPatient).child("schedule").child(uiSchedule)
+                        databaseReference.child("user").child(mAuth.getUid()).child("pasien").child(idPatient).child("schedule").push().child(uiSchedule)
                                 .setValue(s);
                     }
                 }
@@ -110,6 +184,9 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                     view.message(databaseError.getMessage());
                 }
             });
+
+            databaseReference.child("user").child(idPatient).child("schedule").child(uiSchedule).setValue(s);
+            view.onSuccess();
         }
     }
 
@@ -119,8 +196,30 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     }
 
     @Override
-    public void listScheduleByDate(String date) {
+    public void listScheduleByDate(final String date) {
+        view.onLoad();
 
+        databaseReference.child("schedule").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Schedule> list = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                    Schedule s = ds.getValue(Schedule.class);
+                    if (s.getJadwal().equals(date)){
+                        list.add(s);
+                    }
+                }
+                listSchedule = list;
+                view.onSuccess();
+                view.listSchedule(listSchedule);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
     }
 
     @Override

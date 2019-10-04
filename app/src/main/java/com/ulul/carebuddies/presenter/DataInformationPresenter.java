@@ -15,6 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.carebuddies.contract.DataInformationContract;
 import com.ulul.carebuddies.model.DataInformation;
+import com.ulul.carebuddies.model.Schedule;
+
+import java.util.ArrayList;
 
 public class DataInformationPresenter implements DataInformationContract.Presenter {
     DatabaseReference databaseReference;
@@ -42,7 +45,6 @@ public class DataInformationPresenter implements DataInformationContract.Present
     @Override
     public void submitData() {
         view.onLoad();
-
         databaseReference.child("user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

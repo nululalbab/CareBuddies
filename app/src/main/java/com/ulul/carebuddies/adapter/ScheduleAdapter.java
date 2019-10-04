@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.model.DataInformation;
+import com.ulul.carebuddies.model.Schedule;
 
 import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
-    List<DataInformation> list;
+    List<Schedule> list;
 
-    public ScheduleAdapter(List<DataInformation> list){
+    public ScheduleAdapter(List<Schedule> list){
         this.list = list;
     }
 
@@ -35,6 +36,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         return list.size();
     }
 
+    public void updateList(List<Schedule> list){
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txt_jadwal;
         TextView txt_jam;
@@ -46,10 +54,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             txt_obat = (TextView) itemView.findViewById(R.id.txt_obat);
         }
 
-        public void bindItem(DataInformation item){
-            txt_jadwal.setText(item.getNama());
-            txt_jam.setText(item.getNo_telp());
-            txt_obat.setText(item.getNo_telp());
+        public void bindItem(Schedule item){
+            txt_jadwal.setText(item.getJadwal());
+            txt_jam.setText(item.getJam());
+            txt_obat.setText(item.getDetail_medicine().getNama_obat());
         }
     }
 }
