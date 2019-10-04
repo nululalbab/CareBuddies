@@ -242,7 +242,6 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                     if (s.getJadwal().equals(date)){
                         s.setKey(ds.getKey());
                         list.add(s);
-
                     }
                 }
                 listSchedule = list;

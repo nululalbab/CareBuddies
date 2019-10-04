@@ -32,7 +32,7 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content">
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-
+                android:id="@id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:theme="@style/CalenderViewCustom"
@@ -92,7 +92,7 @@
                     android:textColor="#fff"
                     />
                 <TextView
-
+                android:id="@+id/countSuccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="46 Times"
@@ -133,7 +133,7 @@
                     android:textColor="#fff"
                     />
                 <TextView
-
+                    android:id="@+id/countFailure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="6 TImes"
