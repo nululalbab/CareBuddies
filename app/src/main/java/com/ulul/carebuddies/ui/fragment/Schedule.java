@@ -2,6 +2,7 @@ package com.ulul.carebuddies.ui.fragment;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +29,10 @@ import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.presenter.PatientPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
+import com.ulul.carebuddies.ui.activity.DataPatientActivity;
+import com.ulul.carebuddies.ui.activity.DataScheduleActivity;
 import com.ulul.carebuddies.ui.activity.ScheduleRegisterActivity;
+import com.ulul.carebuddies.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,10 +74,11 @@ public class Schedule extends Fragment implements ScheduleContract.View {
         });
 
 
-        recycler_view_schedule = view.findViewById(R.id.recycler_view);
+        recycler_view_schedule = view.findViewById(R.id.recycler_view_schedule);
         presenter = new SchedulePresenter(this);
 
         adapter = new ScheduleAdapter(new ArrayList<com.ulul.carebuddies.model.Schedule>());
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycler_view_schedule.setLayoutManager(layoutManager);
 
@@ -93,6 +99,24 @@ public class Schedule extends Fragment implements ScheduleContract.View {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 //menampilkan toast jika berhasil di klik
                 presenter.listScheduleByDate(String.valueOf(date.getDate()));
+
+            }
+        });
+
+
+        ItemClickSupport.addTo(recycler_view_schedule).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Log.d("Position","Value : "+ position);
+
+                Intent intent = new Intent(getActivity(), DataScheduleActivity.class);
+                Log.d("Data List Position","Value : "+ dataList.get(position));
+
+                intent.putExtra("data1", dataList.get(position).getKey());
+
+                Log.d("Key","Value : "+ dataList.get(position).getKey());
+                startActivity(intent);
+
             }
         });
     }

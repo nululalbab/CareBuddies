@@ -206,7 +206,9 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     Schedule s = ds.getValue(Schedule.class);
                     if (s.getJadwal().equals(date)){
+                        s.setKey(ds.getKey());
                         list.add(s);
+
                     }
                 }
                 listSchedule = list;
@@ -245,6 +247,30 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                     list.add(m);
                 }
                 view.listMedicine(list);
+                view.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+    }
+
+
+    public void getListSchedule() {
+        view.onLoad();
+        databaseReference.child("schedule").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Schedule> list = new ArrayList<>();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Schedule s = ds.getValue(Schedule.class);
+                    s.setKey(ds.getKey());
+                    list.add(s);
+                }
+                view.listSchedule(list);
                 view.onSuccess();
             }
 
