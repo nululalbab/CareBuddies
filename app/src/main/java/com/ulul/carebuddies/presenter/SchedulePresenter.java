@@ -3,6 +3,7 @@ package com.ulul.carebuddies.presenter;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.transition.Scene;
 import android.util.Log;
 import android.widget.DatePicker;
 
@@ -29,8 +30,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -297,6 +301,46 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
         });
     }
 
+    public List<Schedule> filterDescJadwal(List<Schedule> list){
+        Collections.reverse(list);
+        List<Schedule> newList = new ArrayList<>();
+        return newList;
+    }
+
+    public HashMap<String, List<Schedule>> filterByPatient(List<Schedule> list){
+        HashMap<String, List<Schedule>> hashMap = new HashMap<>();
+//        List<Schedule> newList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+//            boolean cek = false;
+//            boolean cek2 = false;
+//            for (int j = 0; j < newList.size(); j++) {
+//                if (list.get(i).getPatient().equals(newList.get(j).getPatient())){
+//                    cek = true;
+//                } else if (cek && !cek2){
+//                    List<Schedule> tempList = newList;
+//                    newList.add(j, list.get(j));
+//                    for (int k = j; k < newList.size(); k++) {
+//                        newList.add((k+1), list.get(k));
+//                    }
+//                    cek2 = true;
+//                }
+//            }
+//            if (!cek){
+//                newList.add(list.get(i));
+//            }
+            List<Schedule> cek = hashMap.get(list.get(i).getPatient());
+            if (cek == null){
+                List<Schedule> cekList = new ArrayList<>();
+                cekList.add(list.get(i));
+                hashMap.put(list.get(i).getPatient(), cekList);
+            } else {
+                cek.add(list.get(i));
+                hashMap.put(list.get(i).getPatient(), cek);
+            }
+        }
+        return hashMap;
+    }
+
 
     public void getListSchedule() {
         view.onLoad();
@@ -332,9 +376,50 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     }
 
     @Override
-    public void getListScheduleSuccess() {
+    public void getListScheduleDone() {
         view.onLoad();
         databaseReference.child("schedule").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Schedule> list = new ArrayList<>();
+                Date now = new Date();
+
+                for (DataSnapshot ds :dataSnapshot.getChildren()){
+                    Schedule schedule = ds.getValue(Schedule.class);
+                    if (schedule.getCare_taker().equals(mAuth.getUid())){
+                        Date dateS = null;
+                        try {
+                            dateS = formatter.parse(schedule.getJadwal());
+                            if (now.after(dateS)){
+                                if (now.equals(dateS)){
+                                    if (schedule.getStatus() == 1){
+                                        list.add(schedule);
+                                    }
+                                } else {
+                                    list.add(schedule);
+                                }
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                filterByPatient(filterDescJadwal(list));
+                view.listScheduleSuccess(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getListScheduleSuccess() {
+        view.onLoad();
+        databaseReference.child("schedule").orderByChild("jadwal").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Schedule> list = new ArrayList<>();

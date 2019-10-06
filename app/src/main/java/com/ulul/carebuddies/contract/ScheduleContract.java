@@ -6,6 +6,7 @@ import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScheduleContract {
@@ -14,6 +15,7 @@ public class ScheduleContract {
         void informationStatusAll(List<Schedule> finish, List<Schedule> unfinish);
         void informatinoStatusOne(List<Schedule> finish, List<Schedule> unfinish);
         void listMedicine(List<Medicine> list);
+        void listScheduleByPatient(HashMap<String, List<Schedule>> list);
         void listScheduleSuccess(List<Schedule> list);
         void listScheduleFailure(List<Schedule> list);
     }
@@ -36,6 +38,7 @@ public class ScheduleContract {
         void setPatient(String id);
         void setMedicine(String id);
 
+        void getListScheduleDone();
         void getListScheduleSuccess();
         void getListScheduleFailure();
     }

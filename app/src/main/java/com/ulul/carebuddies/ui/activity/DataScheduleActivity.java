@@ -33,6 +33,7 @@ import com.ulul.carebuddies.model.Schedule;
 import com.ulul.carebuddies.presenter.HospitalPresenter;
 import com.ulul.carebuddies.presenter.SchedulePresenter;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static android.Manifest.permission.CALL_PHONE;
@@ -130,6 +131,11 @@ public class DataScheduleActivity extends AppCompatActivity implements ScheduleC
 
     @Override
     public void listMedicine(List<Medicine> list) {
+
+    }
+
+    @Override
+    public void listScheduleByPatient(HashMap<String, List<Schedule>> list) {
 
     }
 

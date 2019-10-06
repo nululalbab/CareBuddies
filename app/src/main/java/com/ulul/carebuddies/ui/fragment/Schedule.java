@@ -36,6 +36,7 @@ import com.ulul.carebuddies.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -64,6 +65,12 @@ public class Schedule extends Fragment implements ScheduleContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MaterialCalendarView materialCalendarView;
         super.onViewCreated(view, savedInstanceState);
+
+        HashMap<String, List<Schedule>> list = new HashMap<>();
+        List<Schedule> test = list.get("okee");
+        if (test == null){
+            Toast.makeText(getActivity(), "null gaess", Toast.LENGTH_SHORT).show();
+        }
 
         fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
         fab_add.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +147,11 @@ public class Schedule extends Fragment implements ScheduleContract.View {
 
     @Override
     public void listMedicine(List<Medicine> list) {
+
+    }
+
+    @Override
+    public void listScheduleByPatient(HashMap<String, List<com.ulul.carebuddies.model.Schedule>> list) {
 
     }
 

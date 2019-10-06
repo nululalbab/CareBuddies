@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -189,6 +190,11 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         }
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
         medicine.setAdapter(adapter);
+    }
+
+    @Override
+    public void listScheduleByPatient(HashMap<String, List<Schedule>> list) {
+
     }
 
     @Override
