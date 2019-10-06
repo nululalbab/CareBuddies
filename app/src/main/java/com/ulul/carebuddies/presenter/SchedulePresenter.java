@@ -404,8 +404,9 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                         }
                     }
                 }
-                filterByPatient(filterDescJadwal(list));
-                view.listScheduleSuccess(list);
+//                filterByPatient(filterDescJadwal(list));
+//                view.listScheduleSuccess(list);
+                view.listScheduleByPatient(filterByPatient(filterDescJadwal(list)));
             }
 
             @Override

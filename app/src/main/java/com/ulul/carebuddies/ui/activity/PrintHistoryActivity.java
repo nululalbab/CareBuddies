@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,27 +44,27 @@ import java.io.IOException;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.adapter.HistoryAdapter;
+import com.ulul.carebuddies.adapter.PrintAdapter;
 import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
 import com.ulul.carebuddies.presenter.HistoryPresenter;
+import com.ulul.carebuddies.presenter.SchedulePresenter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PrintHistoryActivity extends AppCompatActivity implements ScheduleContract.View {
-    HistoryPresenter presenter;
-    TextView countSucccess, countFailure;
-    LinearLayout card_success;
-    MaterialCalendarView calendarView;
-    Button btn_print_resume;
-    HistoryAdapter adapter;
+    SchedulePresenter presenter;
     RecyclerView recyclerView;
+    PrintAdapter adapter;
     ProgressDialog dialog;
-    List<Schedule> dataList;
     private Bitmap bitmap;
     ConstraintLayout cl_print;
     FloatingActionButton fab_save;
+    HashMap<String, List<Schedule>> hashMap = new HashMap<>();
 
 
     @Override
@@ -72,6 +73,19 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
         setContentView(R.layout.activity_print_history);
         fab_save = (FloatingActionButton)findViewById(R.id.fab_save);
         cl_print = (ConstraintLayout) findViewById(R.id.cl_print);
+
+        dialog = new ProgressDialog(PrintHistoryActivity.this);
+        dialog.setMessage("Loading. Please wait...");
+
+        recyclerView = findViewById(R.id.recycler_view_print);
+
+        adapter = new PrintAdapter(new HashMap<String, List<Schedule>>());
+        presenter = new SchedulePresenter(this);
+        presenter.getListScheduleDone();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setAdapter(adapter);
 
         fab_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +121,14 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
 
     @Override
     public void listScheduleByPatient(HashMap<String, List<Schedule>> list) {
+        this.hashMap = list;
+        Log.e("test isi",String.valueOf(list.size()));
+        for (Map.Entry<String, List<Schedule>> h : list.entrySet()){
+            adapter.updateList(h.getValue());
+        }
+//        adapter.updateList(list);
+        adapter.notifyDataSetChanged();
+        Log.e("test bro","masuk gak");
 
     }
 
