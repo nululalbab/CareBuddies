@@ -192,6 +192,16 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
     }
 
     @Override
+    public void listScheduleSuccess(List<Schedule> list) {
+
+    }
+
+    @Override
+    public void listScheduleFailure(List<Schedule> list) {
+
+    }
+
+    @Override
     public void setPresenter(Object presenter) {
 
     }

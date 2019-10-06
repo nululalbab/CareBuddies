@@ -25,11 +25,12 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/myPict"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="100dp"
                     app:civ_border_width="4dp"
+                    android:padding="2dp"
                     app:civ_border_color="@color/colorRed"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/pp"/>
+                    android:src="@drawable/icon_avatar"/>
                 <TextView
                     android:id="@+id/profile_name"
                     android:layout_below="@id/myPict"

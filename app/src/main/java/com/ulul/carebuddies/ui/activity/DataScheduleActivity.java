@@ -134,6 +134,16 @@ public class DataScheduleActivity extends AppCompatActivity implements ScheduleC
     }
 
     @Override
+    public void listScheduleSuccess(List<Schedule> list) {
+
+    }
+
+    @Override
+    public void listScheduleFailure(List<Schedule> list) {
+
+    }
+
+    @Override
     public void setPresenter(Object presenter) {
 
     }

@@ -14,6 +14,8 @@ public class ScheduleContract {
         void informationStatusAll(List<Schedule> finish, List<Schedule> unfinish);
         void informatinoStatusOne(List<Schedule> finish, List<Schedule> unfinish);
         void listMedicine(List<Medicine> list);
+        void listScheduleSuccess(List<Schedule> list);
+        void listScheduleFailure(List<Schedule> list);
     }
 
     public interface Presenter extends BasePresenter {
@@ -33,5 +35,8 @@ public class ScheduleContract {
 
         void setPatient(String id);
         void setMedicine(String id);
+
+        void getListScheduleSuccess();
+        void getListScheduleFailure();
     }
 }

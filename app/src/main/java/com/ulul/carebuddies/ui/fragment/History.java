@@ -2,16 +2,20 @@ package com.ulul.carebuddies.ui.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.style.LineBackgroundSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +24,16 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.ulul.carebuddies.R;
+import com.ulul.carebuddies.adapter.HistoryAdapter;
 import com.ulul.carebuddies.contract.HistoryContract;
 import com.ulul.carebuddies.presenter.HistoryPresenter;
+import com.ulul.carebuddies.ui.activity.DataHistoryActivity;
+import com.ulul.carebuddies.ui.activity.DataScheduleActivity;
 import com.ulul.carebuddies.ui.activity.ScheduleRegisterActivity;
 import com.ulul.carebuddies.util.CustomSpan;
 import com.ulul.carebuddies.util.EventDecorator;
 import com.ulul.carebuddies.util.EventDecoratorMaterial;
+import com.ulul.carebuddies.util.ItemClickSupport;
 
 import org.w3c.dom.Text;
 
@@ -41,9 +49,12 @@ import java.util.Map;
 public class History extends Fragment implements HistoryContract.View {
     HistoryPresenter presenter;
     TextView countSucccess, countFailure;
+    LinearLayout card_success;
     MaterialCalendarView calendarView;
-
+    HistoryAdapter adapter;
+    RecyclerView recyclerView;
     ProgressDialog dialog;
+    List<com.ulul.carebuddies.model.Schedule> dataList;
 
     public History() {
         // Required empty public constructor
@@ -63,6 +74,7 @@ public class History extends Fragment implements HistoryContract.View {
         countFailure = (TextView) view.findViewById(R.id.countFailure);
         countSucccess = (TextView) view.findViewById(R.id.countSuccess);
         calendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
+        card_success = (LinearLayout)view.findViewById(R.id.card1);
 
         calendarView.state().edit().commit();
 
@@ -75,6 +87,15 @@ public class History extends Fragment implements HistoryContract.View {
         presenter.countHistory();
         presenter.getListFailure();
         presenter.getListSuccess();
+
+        card_success.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DataHistoryActivity.class);
+                intent.putExtra("status", 1);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

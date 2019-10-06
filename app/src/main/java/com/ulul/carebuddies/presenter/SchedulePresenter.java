@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.model.Medicine;
@@ -24,6 +25,7 @@ import com.ulul.carebuddies.model.Schedule;
 import com.ulul.carebuddies.util.LocalStorage;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,6 +66,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
         detailCareTaker = new DataInformation();
         detailPatient = new DataInformation();
         detailMedicine = new Medicine();
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     @Override
@@ -326,6 +329,81 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void setMedicine(String id) {
         idMedicine = id;
+    }
+
+    @Override
+    public void getListScheduleSuccess() {
+        view.onLoad();
+        databaseReference.child("schedule").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Schedule> list = new ArrayList<>();
+                for (DataSnapshot ds :dataSnapshot.getChildren()){
+                    Schedule schedule = ds.getValue(Schedule.class);
+                    if (schedule.getCare_taker().equals(mAuth.getUid())){
+                        if (schedule.getStatus() == 1){
+                            String [] arr = schedule.getJadwal().split("-");
+                            if (arr.length > 1){
+                                Log.e("masuk success ", "oke");
+                                list.add(schedule);
+                            }
+                        }
+                    }
+                }
+                view.listScheduleSuccess(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void getListScheduleFailure() {
+        view.onLoad();
+        databaseReference.child("schedule").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Schedule> list = new ArrayList<>();
+
+                Calendar c = Calendar.getInstance();
+                Date now = new Date();
+                c.setTime(now);
+                c.add(Calendar.DATE, -1);
+                now = c.getTime();
+
+                for (DataSnapshot ds :dataSnapshot.getChildren()){
+                    Schedule schedule = ds.getValue(Schedule.class);
+                    if (schedule.getCare_taker().equals(mAuth.getUid())){
+                        if (schedule.getStatus() == 0){
+                            Date dateS = null;
+                            try {
+                                dateS = formatter.parse(schedule.getJadwal());
+                                if (now.after(dateS)){
+                                    String [] arr = schedule.getJadwal().split("-");
+                                    if (arr.length == 3){
+                                        list.add(schedule);
+                                    }
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                view.listScheduleFailure(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+
     }
 
     @Override

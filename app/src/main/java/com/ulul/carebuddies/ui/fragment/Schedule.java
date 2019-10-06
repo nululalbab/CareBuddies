@@ -144,6 +144,16 @@ public class Schedule extends Fragment implements ScheduleContract.View {
     }
 
     @Override
+    public void listScheduleSuccess(List<com.ulul.carebuddies.model.Schedule> list) {
+
+    }
+
+    @Override
+    public void listScheduleFailure(List<com.ulul.carebuddies.model.Schedule> list) {
+
+    }
+
+    @Override
     public void setPresenter(Object presenter) {
 
     }
