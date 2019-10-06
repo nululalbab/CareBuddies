@@ -1,5 +1,6 @@
 package com.ulul.carebuddies.model;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public class Schedule {
@@ -118,5 +119,17 @@ public class Schedule {
 
     public void setMedicine(String medicine) {
         this.medicine = medicine;
+    }
+
+//    @NonNull
+    @Override
+    public String toString() {
+        return "Schedule [jadwal="
+                + jadwal
+                + ", jam="
+                + jam
+                + ", obat="
+                + detail_medicine.nama_obat +
+                "]";
     }
 }

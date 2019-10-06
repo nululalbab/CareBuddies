@@ -38,6 +38,5 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     implementation 'com.github.HendrixString:Android-PdfMyXml:1.0.8'
     implementation 'com.itextpdf:itextg:5.5.10'
-
-
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
 }

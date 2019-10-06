@@ -21,6 +21,7 @@ import com.ulul.carebuddies.contract.ScheduleContract;
 import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.model.Medicine;
 import com.ulul.carebuddies.model.Schedule;
+import com.ulul.carebuddies.util.LocalStorage;
 
 
 import java.text.SimpleDateFormat;
@@ -186,6 +187,8 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
             });
 
             databaseReference.child("user").child(idPatient).child("schedule").child(uiSchedule).setValue(s);
+            LocalStorage local = new LocalStorage(context, "schedule");
+            local.setString(uiSchedule, s.getJadwal() + " " + s.getJadwal());
             view.onSuccess();
         }
     }
