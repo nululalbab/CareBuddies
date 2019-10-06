@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity implements AuthContract.Vie
     private FirebaseAuth mAuth;
     private AuthPresenter authPresenter;
 
-    private EditText etEmail, etPassword ;
+    EditText etEmail, etPassword ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

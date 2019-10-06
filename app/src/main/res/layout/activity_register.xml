@@ -7,7 +7,7 @@
     android:background="#E8E9E8"
     tools:context=".ui.activity.RegisterActivity">
     <ImageView
-        android:src="@drawable/login_kiri_atas"
+        app:srcCompat="@drawable/login_kiri_atas"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:scaleType="fitXY"
@@ -15,7 +15,7 @@
         android:adjustViewBounds="true"/>
 
     <ImageView
-        android:src="@drawable/login_kanan_atas"
+        app:srcCompat="@drawable/login_kanan_atas"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:scaleType="fitXY"
@@ -88,7 +88,7 @@
         android:layout_marginRight="45dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_check_black_24dp"
+        app:srcCompat="@drawable/ic_check_black_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
