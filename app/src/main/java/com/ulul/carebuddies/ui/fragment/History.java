@@ -29,6 +29,7 @@ import com.ulul.carebuddies.contract.HistoryContract;
 import com.ulul.carebuddies.presenter.HistoryPresenter;
 import com.ulul.carebuddies.ui.activity.DataHistoryActivity;
 import com.ulul.carebuddies.ui.activity.DataScheduleActivity;
+import com.ulul.carebuddies.ui.activity.PrintHistoryActivity;
 import com.ulul.carebuddies.ui.activity.ScheduleRegisterActivity;
 import com.ulul.carebuddies.util.CustomSpan;
 import com.ulul.carebuddies.util.EventDecorator;
@@ -51,6 +52,7 @@ public class History extends Fragment implements HistoryContract.View {
     TextView countSucccess, countFailure;
     LinearLayout card_success;
     MaterialCalendarView calendarView;
+    Button btn_print_resume;
     HistoryAdapter adapter;
     RecyclerView recyclerView;
     ProgressDialog dialog;
@@ -75,6 +77,7 @@ public class History extends Fragment implements HistoryContract.View {
         countSucccess = (TextView) view.findViewById(R.id.countSuccess);
         calendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
         card_success = (LinearLayout)view.findViewById(R.id.card1);
+        btn_print_resume = (Button)view.findViewById(R.id.btn_print_resume);
 
         calendarView.state().edit().commit();
 
@@ -96,6 +99,16 @@ public class History extends Fragment implements HistoryContract.View {
                 startActivity(intent);
             }
         });
+
+        btn_print_resume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PrintHistoryActivity.class);
+                intent.putExtra("status", 1);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
