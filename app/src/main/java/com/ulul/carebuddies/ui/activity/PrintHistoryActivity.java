@@ -36,6 +36,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -90,8 +93,10 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
         fab_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                
                 Log.d("size"," "+cl_print.getWidth() +"  "+cl_print.getWidth());
                 bitmap = loadBitmapFromView(cl_print, cl_print.getWidth(), cl_print.getHeight());
+
                 createPdf();
             }
         });
@@ -170,6 +175,7 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
 
     }
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
+
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         v.draw(c);
@@ -178,12 +184,13 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
     }
 
     private void createPdf(){
+
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //  Display display = wm.getDefaultDisplay();
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         float hight = displaymetrics.heightPixels ;
-        float width = displaymetrics.widthPixels ;
+        float width = displaymetrics.widthPixels*1.41f ;
 
         final int convertHighet = (int) hight, convertWidth = (int) width;
 
