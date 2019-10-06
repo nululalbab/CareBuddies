@@ -128,8 +128,21 @@ public class Schedule {
                 + jadwal
                 + ", jam="
                 + jam
-                + ", obat="
-                + detail_medicine.nama_obat +
-                "]";
+                + ", status="
+                + status
+                + ", keterangan="
+                + keterangan
+                + ", care_taker="
+                + care_taker
+                + ", medicine="
+                + medicine
+                + ", detail_care_taker=[nama="
+                + detail_care_taker.getNama()
+                + ", no_telp="
+                + detail_care_taker.getNo_telp()
+                + "], detail_medicine=[nama_obat="
+                + detail_medicine.nama_obat
+                + "]"
+                + "]";
     }
 }
