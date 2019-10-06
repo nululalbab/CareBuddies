@@ -13,7 +13,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.contract.AuthContract;
+import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.presenter.AuthPresenter;
+import com.ulul.carebuddies.util.LocalStorage;
 
 public class LoginActivity extends AppCompatActivity implements AuthContract.View {
     private FirebaseAuth mAuth;
@@ -83,9 +85,7 @@ public class LoginActivity extends AppCompatActivity implements AuthContract.Vie
 
     @Override
     public void onSuccess() {
-        Intent goHome = new Intent(LoginActivity.this, NavBottomActivity.class);
-        startActivity(goHome);
-        finish();
+
     }
 
     @Override
@@ -101,6 +101,14 @@ public class LoginActivity extends AppCompatActivity implements AuthContract.Vie
     @Override
     public void checkData() {
         Intent goHome = new Intent(LoginActivity.this, DataInformationActivity.class);
+        startActivity(goHome);
+        finish();
+    }
+
+    @Override
+    public void dataUser(DataInformation dataInformation) {
+        Intent goHome = new Intent(LoginActivity.this, NavBottomActivity.class);
+        goHome.putExtra("role", Integer.valueOf(dataInformation.getRole()));
         startActivity(goHome);
         finish();
     }

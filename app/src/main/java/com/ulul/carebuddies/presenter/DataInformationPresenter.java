@@ -38,6 +38,27 @@ public class DataInformationPresenter implements DataInformationContract.Present
     }
 
     @Override
+    public void getData() {
+        databaseReference.child("user").child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    view.dataUser(dataSnapshot.getValue(DataInformation.class));
+                } else {
+                    view.dataUser(new DataInformation());
+                }
+                view.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                view.onError();
+                view.message(databaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
     public void setData(String nama, String alamat, String no_telp, String ttl, String jenis_kelamin, String sumber_biaya,String role) {
         dataInformation = new DataInformation(nama, alamat, no_telp, ttl, jenis_kelamin, sumber_biaya,role, "");
     }
@@ -60,6 +81,7 @@ public class DataInformationPresenter implements DataInformationContract.Present
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 view.onSuccess();
+                                view.dataUser(dataInformation);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

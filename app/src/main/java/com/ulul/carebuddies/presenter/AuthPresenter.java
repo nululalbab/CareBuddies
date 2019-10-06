@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.carebuddies.contract.AuthContract;
+import com.ulul.carebuddies.model.DataInformation;
 
 public class AuthPresenter implements AuthContract.Presenter {
     FirebaseAuth mAuth;
@@ -70,9 +71,7 @@ public class AuthPresenter implements AuthContract.Presenter {
                                 authContract.getCurrentUser(user);
 
                                 checkData();
-
-                                authContract.message("Authentication Berhasil.");
-                                authContract.onSuccess();
+//                                authContract.onSuccess();
 
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -89,7 +88,8 @@ public class AuthPresenter implements AuthContract.Presenter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    authContract.onSuccess();
+                    authContract.message("Authentication Success.");
+                    authContract.dataUser(dataSnapshot.getValue(DataInformation.class));
                 } else {
                     authContract.checkData();
 //                    authContract.onError();

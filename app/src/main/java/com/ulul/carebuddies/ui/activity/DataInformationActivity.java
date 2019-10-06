@@ -5,18 +5,27 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.contract.DataInformationContract;
+import com.ulul.carebuddies.model.DataInformation;
 import com.ulul.carebuddies.presenter.DataInformationPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataInformationActivity extends AppCompatActivity implements DataInformationContract.View {
     DataInformationPresenter presenter;
 
 
     EditText nama, no_telp, alamat, ttl, jenis_kelamin, sumber_biaya;
+    Spinner role_spinner;
+    String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +43,32 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
         ttl = (EditText) findViewById(R.id.ttl);
         jenis_kelamin = (EditText) findViewById(R.id.jenis_kelamin);
         sumber_biaya = (EditText) findViewById(R.id.sumber_biaya);
-        final String role = "0";
+        role_spinner = (Spinner) findViewById(R.id.role_spinner);
+
+        List<String> arrayList = new ArrayList<>();
+        arrayList.add("Patient");
+        arrayList.add("Care Taker");
+        role = "1";
+
+        final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+        role_spinner.setAdapter(adapter);
+
+        role_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    role = "1";
+                } else {
+                    role = "0";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,13 +96,19 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
 
     @Override
     public void onSuccess() {
-        Intent goHome = new Intent(DataInformationActivity.this, NavBottomActivity.class);
-        startActivity(goHome);
-        finish();
+
     }
 
     @Override
     public void message(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void dataUser(DataInformation dataInformation) {
+        Intent goHome = new Intent(DataInformationActivity.this, NavBottomActivity.class);
+        goHome.putExtra("role", Integer.valueOf(dataInformation.getRole()));
+        startActivity(goHome);
+        finish();
     }
 }

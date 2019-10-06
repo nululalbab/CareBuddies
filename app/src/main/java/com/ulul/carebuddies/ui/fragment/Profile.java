@@ -85,11 +85,8 @@ public class Profile extends Fragment {
                     DataInformation profil = dataSnapshot.getValue(DataInformation.class);
                     profileName.setText(profil.getNama());
                     profilePhone.setText(profil.getNo_telp());
-                    profileAddress.setText(String.valueOf(profil));
-                } else {
-                    //bus number doesn't exists.
+                    profileAddress.setText(profil.getAlamat());
                 }
-
             }
 
             @Override

@@ -66,12 +66,6 @@ public class Schedule extends Fragment implements ScheduleContract.View {
         MaterialCalendarView materialCalendarView;
         super.onViewCreated(view, savedInstanceState);
 
-        HashMap<String, List<Schedule>> list = new HashMap<>();
-        List<Schedule> test = list.get("okee");
-        if (test == null){
-            Toast.makeText(getActivity(), "null gaess", Toast.LENGTH_SHORT).show();
-        }
-
         fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override

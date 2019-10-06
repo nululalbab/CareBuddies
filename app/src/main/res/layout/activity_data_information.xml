@@ -32,10 +32,23 @@
         android:shadowDy="4"
         android:shadowRadius="10"
         android:layout_height="wrap_content">
-        <EditText
-
+        <Spinner
             android:paddingLeft="20dp"
+            android:id="@+id/role_spinner"
+            android:hint="Pick Role"
+            android:backgroundTint="#FFF"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <View
 
+            android:id="@+id/v_role"
+            android:background="#E8E9E8"
+            android:layout_below="@id/nama"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <EditText
+            android:paddingLeft="20dp"
+            android:layout_below="@+id/role_spinner"
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="20dp"
             android:id="@+id/nama"

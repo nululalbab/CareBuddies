@@ -7,14 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ulul.carebuddies.ui.fragment.History;
 import com.ulul.carebuddies.ui.fragment.Patient;
 import com.ulul.carebuddies.ui.fragment.Profile;
 import com.ulul.carebuddies.R;
 import com.ulul.carebuddies.ui.fragment.Schedule;
+import com.ulul.carebuddies.util.LocalStorage;
 
 public class NavBottomActivity extends AppCompatActivity {
-
+    FirebaseUser mAut;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -65,8 +68,17 @@ public class NavBottomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_bottom);
 
+        mAut = FirebaseAuth.getInstance().getCurrentUser();
+        int role = getIntent().getIntExtra("role", -1);
+        LocalStorage local = new LocalStorage(this, "role");
+        local.setInt("role", role);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        if (role == 1){
+            navView.getMenu().clear();
+            navView.inflateMenu(R.menu.bottom_nav_menu_patient);
+        }
 
 
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
