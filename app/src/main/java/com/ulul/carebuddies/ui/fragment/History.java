@@ -128,7 +128,7 @@ public class History extends Fragment implements HistoryContract.View {
 //        EventDecoratorMaterial event = new EventDecoratorMaterial(Color.WHITE, list);
 //        calendarView.addDecorator(event);
         for (int i = 0; i < list.size(); i++) {
-            EventDecorator event = new EventDecorator(Color.GREEN, 5.0f, 0);
+            EventDecorator event = new EventDecorator(Color.YELLOW, 5.0f, 0);
             event.addDate(list.get(i));
             calendarView.addDecorator(event);
             Log.e("masuk succes list ", list.get(i).getDate().toString());
@@ -145,7 +145,7 @@ public class History extends Fragment implements HistoryContract.View {
     @Override
     public void listFailure(List<CalendarDay> list) {
         for (int i = 0; i < list.size(); i++) {
-            EventDecorator event = new EventDecorator(Color.WHITE, 5.0f, 2);
+            EventDecorator event = new EventDecorator(Color.BLACK, 5.0f, 2);
             event.addDate(list.get(i));
             calendarView.addDecorator(event);
             Log.e("masuk succes list ", list.get(i).getDate().toString());

@@ -93,7 +93,7 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
         fab_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
                 Log.d("size"," "+cl_print.getWidth() +"  "+cl_print.getWidth());
                 bitmap = loadBitmapFromView(cl_print, cl_print.getWidth(), cl_print.getHeight());
 

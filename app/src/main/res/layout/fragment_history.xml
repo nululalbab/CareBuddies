@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
 
     tools:context=".ui.fragment.History">
@@ -43,7 +44,8 @@
                 android:layout_height="320dp"
                 android:theme="@style/CalenderViewCustom"
                 android:dateTextAppearance="@style/CalenderViewDateCustomText"
-                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText">
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                app:mcv_dateTextAppearance="@color/colorWhite">
 
             </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
         </LinearLayout>
