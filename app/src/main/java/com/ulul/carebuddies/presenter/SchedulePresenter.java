@@ -303,31 +303,13 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
 
     public List<Schedule> filterDescJadwal(List<Schedule> list){
         Collections.reverse(list);
-        List<Schedule> newList = new ArrayList<>();
-        return newList;
+        return list;
     }
 
     public HashMap<String, List<Schedule>> filterByPatient(List<Schedule> list){
         HashMap<String, List<Schedule>> hashMap = new HashMap<>();
 //        List<Schedule> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-//            boolean cek = false;
-//            boolean cek2 = false;
-//            for (int j = 0; j < newList.size(); j++) {
-//                if (list.get(i).getPatient().equals(newList.get(j).getPatient())){
-//                    cek = true;
-//                } else if (cek && !cek2){
-//                    List<Schedule> tempList = newList;
-//                    newList.add(j, list.get(j));
-//                    for (int k = j; k < newList.size(); k++) {
-//                        newList.add((k+1), list.get(k));
-//                    }
-//                    cek2 = true;
-//                }
-//            }
-//            if (!cek){
-//                newList.add(list.get(i));
-//            }
             List<Schedule> cek = hashMap.get(list.get(i).getPatient());
             if (cek == null){
                 List<Schedule> cekList = new ArrayList<>();
@@ -378,7 +360,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void getListScheduleDone() {
         view.onLoad();
-        databaseReference.child("schedule").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("schedule").orderByChild("jadwal").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Schedule> list = new ArrayList<>();
@@ -404,8 +386,6 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                         }
                     }
                 }
-//                filterByPatient(filterDescJadwal(list));
-//                view.listScheduleSuccess(list);
                 view.listScheduleByPatient(filterByPatient(filterDescJadwal(list)));
             }
 
@@ -420,7 +400,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void getListScheduleSuccess() {
         view.onLoad();
-        databaseReference.child("schedule").orderByChild("jadwal").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("schedule").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Schedule> list = new ArrayList<>();

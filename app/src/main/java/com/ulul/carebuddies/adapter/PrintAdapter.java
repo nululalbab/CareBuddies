@@ -16,13 +16,7 @@ import java.util.List;
 
 public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> {
 
-    HashMap<String, List<Schedule>> hashMap;
     List<Schedule> list;
-
-
-    public PrintAdapter(HashMap<String, List<Schedule>> list){
-        this.hashMap = list;
-    }
 
     public PrintAdapter(List<Schedule> list){
         this.list = list;
@@ -41,20 +35,19 @@ public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return hashMap.size();
+        return list.size();
     }
 
-//    public void updateList(HashMap<String, List<Schedule>> hashMap){
-//        this.hashMap = hashMap;
-//        notifyDataSetChanged();
-//    }
     public void updateList(List<Schedule> list){
         this.list = list;
         notifyDataSetChanged();
         Log.e("Hashmap",String.valueOf(list.size()));
     }
 
-
+    public void putList(Schedule add){
+        this.list.add(add);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_jadwal_print;
@@ -67,7 +60,7 @@ public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> 
            tv_jadwal_print = (TextView) itemView.findViewById(R.id.tv_jadwal_print);
             tv_jam_print = (TextView) itemView.findViewById(R.id.tv_jam_print);
             tv_obat_print = (TextView) itemView.findViewById(R.id.tv_obat_print);
-            tv_nama_print = (TextView) itemView.findViewById(R.id.tv_jadwal_print);
+            tv_nama_print = (TextView) itemView.findViewById(R.id.tv_nama_print);
             tv_keterangan_print = (TextView) itemView.findViewById(R.id.tv_keterangan_print);
 
         }

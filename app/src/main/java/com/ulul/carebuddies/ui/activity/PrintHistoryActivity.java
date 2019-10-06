@@ -79,7 +79,7 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
 
         recyclerView = findViewById(R.id.recycler_view_print);
 
-        adapter = new PrintAdapter(new HashMap<String, List<Schedule>>());
+        adapter = new PrintAdapter(new ArrayList<Schedule>());
         presenter = new SchedulePresenter(this);
         presenter.getListScheduleDone();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -124,7 +124,10 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
         this.hashMap = list;
         Log.e("test isi",String.valueOf(list.size()));
         for (Map.Entry<String, List<Schedule>> h : list.entrySet()){
-            adapter.updateList(h.getValue());
+            Log.e("for by patient", h.getValue().toString());
+            for (Schedule value: h.getValue()){
+                adapter.putList(value);
+            }
         }
 //        adapter.updateList(list);
         adapter.notifyDataSetChanged();
