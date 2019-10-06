@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:590500014200:android:ff4f7e809046d387",
+        "android_client_info": {
+          "package_name": "com.ulul.carebuddies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590500014200-0f6glcv4h9gbp7ab5kbe99tb0ghs9d6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ulul.carebuddies",
+            "certificate_hash": "9f02b66a9aed0ac3629c18c2bae3a8bf5e4e4522"
+          }
+        },
+        {
+          "client_id": "590500014200-h2du09g2e9lsju247irseet9kej3np0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkSpeLBOfC9hL4bnK1GsKXdaGgUFiAcLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590500014200-h2du09g2e9lsju247irseet9kej3np0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:590500014200:android:b2adff6b9107f757",
         "android_client_info": {
           "package_name": "com.ulul.medbuddies"
