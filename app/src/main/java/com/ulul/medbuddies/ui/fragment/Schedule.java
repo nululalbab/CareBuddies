@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -26,6 +27,7 @@ import com.ulul.medbuddies.presenter.SchedulePresenter;
 import com.ulul.medbuddies.ui.activity.DataScheduleActivity;
 import com.ulul.medbuddies.ui.activity.ScheduleRegisterActivity;
 import com.ulul.medbuddies.util.ItemClickSupport;
+import com.ulul.medbuddies.util.LocalStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +43,7 @@ public class Schedule extends Fragment implements ScheduleContract.View {
     SchedulePresenter presenter;
     List<com.ulul.medbuddies.model.Schedule> dataList;
     ScheduleAdapter adapter;
+    LocalStorage localStorage;
 
     public Schedule() {
     }
@@ -57,18 +60,29 @@ public class Schedule extends Fragment implements ScheduleContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         MaterialCalendarView materialCalendarView;
         super.onViewCreated(view, savedInstanceState);
+        localStorage = new LocalStorage(getContext(), "user");
 
         fab_add = (FloatingActionButton) view.findViewById(R.id.fab_add);
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ScheduleRegisterActivity.class));
+                if (localStorage.getInt("role") == 1){
+                    String care_taker = localStorage.getString("care_taker");
+                    if (care_taker == null || care_taker.equals("")){
+                        Toast.makeText(getContext(), "You must add care taker", Toast.LENGTH_SHORT).show();
+                    } else {
+                        startActivity(new Intent(getActivity(), ScheduleRegisterActivity.class));
+                    }
+                } else if (localStorage.getInt("role") == 0){
+                    startActivity(new Intent(getActivity(), ScheduleRegisterActivity.class));
+                }
             }
         });
 
 
         recycler_view_schedule = view.findViewById(R.id.recycler_view_schedule);
         presenter = new SchedulePresenter(this);
+        presenter.setContext(getContext());
 
         adapter = new ScheduleAdapter(new ArrayList<com.ulul.medbuddies.model.Schedule>());
 
@@ -101,14 +115,15 @@ public class Schedule extends Fragment implements ScheduleContract.View {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 Log.d("Position","Value : "+ position);
+                if (localStorage.getInt("role") == 0){
+                    Intent intent = new Intent(getActivity(), DataScheduleActivity.class);
+                    Log.d("Data List Position","Value : "+ dataList.get(position));
 
-                Intent intent = new Intent(getActivity(), DataScheduleActivity.class);
-                Log.d("Data List Position","Value : "+ dataList.get(position));
+                    intent.putExtra("data1", dataList.get(position).getKey());
 
-                intent.putExtra("data1", dataList.get(position).getKey());
-
-                Log.d("Key","Value : "+ dataList.get(position).getKey());
-                startActivity(intent);
+                    Log.d("Key","Value : "+ dataList.get(position).getKey());
+                    startActivity(intent);
+                }
 
             }
         });

@@ -114,6 +114,7 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
         dialog.dismiss();
         Intent goHome = new Intent(DataInformationActivity.this, NavBottomActivity.class);
         goHome.putExtra("role", Integer.valueOf(dataInformation.getRole()));
+        goHome.putExtra("care_taker", dataInformation.getCare_taker());
         startActivity(goHome);
         finish();
     }

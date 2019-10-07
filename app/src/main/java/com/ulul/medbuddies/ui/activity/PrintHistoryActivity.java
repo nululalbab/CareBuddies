@@ -1,7 +1,10 @@
 package com.ulul.medbuddies.ui.activity;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -35,6 +38,7 @@ import com.ulul.medbuddies.model.Medicine;
 import com.ulul.medbuddies.model.Schedule;
 import com.ulul.medbuddies.presenter.SchedulePresenter;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +69,7 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
 
         adapter = new PrintAdapter(new ArrayList<Schedule>());
         presenter = new SchedulePresenter(this);
+        presenter.setContext(this);
         presenter.getListScheduleDone();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -194,9 +199,10 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
         document.finishPage(page);
 
         // write the document content
-        String targetPdf = "/sdcard/pdffromlayout.pdf";
-        File filePath;
-        filePath = new File(targetPdf);
+        String targetPdf =  this.getFilesDir() + "pdffromlayout.pdf";
+        File startFile;
+        startFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
+        File filePath = new File(startFile + File.separator, "resume_history.pdf");
         try {
             document.writeTo(new FileOutputStream(filePath));
 
@@ -214,22 +220,38 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
     }
 
     private void openGeneratedPDF(){
-        File file = new File("/sdcard/pdffromlayout.pdf");
+//        String targetPdf =  this.getFilesDir() + "pdffromlayout.pdf";
+//        File file = new File(getBaseContext().getFilesDir(), "pdffromlayout.pdf");
+
+        File startFile;
+        startFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
+        File file = new File(startFile + File.separator, "resume_history.pdf");
         if (file.exists())
         {
-            Intent intent=new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+            if(Build.VERSION.SDK_INT>=24){
+                try{
+                    Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                    m.invoke(null);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
             try
             {
+                Intent intent=new Intent(Intent.ACTION_VIEW);
+//            intent.setPackage("com.adobe.reader");
+                Uri uri = Uri.fromFile(file);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                Toast.makeText(this, "Try Catch", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
             catch(ActivityNotFoundException e)
             {
-
+                Toast.makeText(this, "No Application Available to View PDF", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(this, "File doesn't exists", Toast.LENGTH_SHORT).show();
         }
     }
 

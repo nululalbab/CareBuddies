@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.medbuddies.contract.PatientContract;
 import com.ulul.medbuddies.model.DataInformation;
+import com.ulul.medbuddies.util.LocalStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class PatientPresenter implements PatientContract.Presenter {
     Context context;
     DatabaseReference databaseReference;
     FirebaseUser mAuth;
+
+    LocalStorage localStorage;
 
     public PatientPresenter(PatientContract.View view){
         this.view = view;
@@ -82,16 +85,18 @@ public class PatientPresenter implements PatientContract.Presenter {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean cek = false;
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     DataInformation data = ds.getValue(DataInformation.class);
-                    Log.e("data connnect Patietn", data.getCare_taker() + " " + data.getRole()     + " = " + no_telp) ;
-                    if (data.getRole().equals("1") && data.getNo_telp().equals(no_telp)){
-                        if (!data.getCare_taker().equals(mAuth.getUid())){
-                            if (data.getCare_taker().equals("")){
+                    Log.e("data connnect Patietn", data.getCare_taker() + " " + data.getRole() + " = " + no_telp);
+                    if (data.getRole().equals("1") && data.getNo_telp().equals(no_telp) && localStorage.getInt("role") == 0) {
+                        if (!data.getCare_taker().equals(mAuth.getUid())) {
+                            if (data.getCare_taker().equals("")) {
                                 data.setCare_taker(mAuth.getUid());
                                 databaseReference.child("user").child(ds.getKey()).setValue(data);
                                 databaseReference.child("user").child(mAuth.getUid()).child("pasien").child(ds.getKey()).setValue(data);
                                 cek = true;
+                                view.message("Success add patient");
+                                view.onSuccess();
                                 break;
                             } else {
                                 cek = true;
@@ -100,6 +105,34 @@ public class PatientPresenter implements PatientContract.Presenter {
                         } else {
                             cek = true;
                             view.message("Sorry, patient has registered");
+                            break;
+                        }
+                    } else if (data.getRole().equals("0") && data.getNo_telp().equals(no_telp) && localStorage.getInt("role") == 1) {
+                        boolean cekCareTaker = false;
+                        DataInformation dataUser = new DataInformation();
+
+                        for (DataSnapshot cekEmpty : dataSnapshot.getChildren()) {
+                            DataInformation cekData = cekEmpty.getValue(DataInformation.class);
+                            Log.e("cek data", cekData.getNama());
+
+                            if (cekData.getCare_taker().equals(ds.getKey())) {
+                                cekCareTaker = true;
+                            }
+
+                            if (cekEmpty.getKey().equals(mAuth.getUid())){
+                                dataUser = cekData;
+                            }
+                        }
+                        if (!cekCareTaker) {
+                            dataUser.setCare_taker(ds.getKey());
+                            databaseReference.child("user").child(mAuth.getUid())
+                                    .setValue(dataUser);
+                            cek = true;
+                            localStorage.setString("care_taker", ds.getKey());
+                            localStorage.setString("no_telp_care_taker", data.getNo_telp());
+                            localStorage.setString("nama_care_taker", data.getNama());
+                            view.message("Success add care taker");
+                            view.onSuccess();
                             break;
                         }
                     }
@@ -120,5 +153,6 @@ public class PatientPresenter implements PatientContract.Presenter {
     @Override
     public void setContext(Context context) {
         this.context = context;
+        localStorage = new LocalStorage(context, "user");
     }
 }

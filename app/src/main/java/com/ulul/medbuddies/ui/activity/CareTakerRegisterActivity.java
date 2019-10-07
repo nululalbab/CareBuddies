@@ -15,18 +15,19 @@ import com.ulul.medbuddies.presenter.PatientPresenter;
 
 import java.util.List;
 
-public class PatientRegisterActivity extends AppCompatActivity implements PatientContract.View {
+public class CareTakerRegisterActivity extends AppCompatActivity implements PatientContract.View {
     FloatingActionButton btn_submit;
     EditText no_telp;
     PatientPresenter presenter;
+
     ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_register);
+        setContentView(R.layout.activity_care_taker_register);
 
-        dialog = new ProgressDialog(PatientRegisterActivity.this);
+        dialog = new ProgressDialog(CareTakerRegisterActivity.this);
         dialog.setMessage("Loading. Please wait...");
 
         btn_submit = (FloatingActionButton) findViewById(R.id.btn_submit);

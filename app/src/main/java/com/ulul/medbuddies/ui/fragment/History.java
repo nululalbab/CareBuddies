@@ -37,7 +37,7 @@ import java.util.List;
 public class History extends Fragment implements HistoryContract.View {
     HistoryPresenter presenter;
     TextView countSucccess, countFailure;
-    LinearLayout card_success;
+    LinearLayout card_success, card_failure;
     MaterialCalendarView calendarView;
     Button btn_print_resume;
     HistoryAdapter adapter;
@@ -64,6 +64,7 @@ public class History extends Fragment implements HistoryContract.View {
         countSucccess = (TextView) view.findViewById(R.id.countSuccess);
         calendarView = (MaterialCalendarView) view.findViewById(R.id.calendarView);
         card_success = (LinearLayout)view.findViewById(R.id.card1);
+        card_failure = (LinearLayout)view.findViewById(R.id.card2);
         btn_print_resume = (Button)view.findViewById(R.id.btn_print_resume);
 
         calendarView.state().edit().commit();
@@ -83,6 +84,15 @@ public class History extends Fragment implements HistoryContract.View {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DataHistoryActivity.class);
                 intent.putExtra("status", 1);
+                startActivity(intent);
+            }
+        });
+
+        card_failure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DataHistoryActivity.class);
+                intent.putExtra("status", 0);
                 startActivity(intent);
             }
         });

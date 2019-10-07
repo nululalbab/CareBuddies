@@ -115,7 +115,7 @@
                 android:id="@+id/countSuccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="46 Times"
+                android:text="0 Times"
                 android:textSize="24dp"
                 android:textColor="#fff"/>
                 </LinearLayout>
@@ -156,7 +156,7 @@
                     android:id="@+id/countFailure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6 TImes"
+                    android:text="0 TImes"
                     android:textSize="24dp"
                     android:textColor="#fff"/>
 

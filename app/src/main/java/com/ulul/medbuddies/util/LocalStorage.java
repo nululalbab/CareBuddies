@@ -16,6 +16,7 @@ public class LocalStorage {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
         editor.apply();
+        editor.commit();
     }
 
     public String getString(String key){
@@ -26,9 +27,10 @@ public class LocalStorage {
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(key, value);
         editor.apply();
+        editor.commit();
     }
 
     public int getInt(String key){
-        return pref.getInt(key, 0);
+        return pref.getInt(key, -1);
     }
 }

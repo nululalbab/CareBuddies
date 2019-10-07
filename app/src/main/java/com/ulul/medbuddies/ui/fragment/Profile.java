@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.ulul.medbuddies.R;
 import com.ulul.medbuddies.model.DataInformation;
 import com.ulul.medbuddies.model.Hospital;
+import com.ulul.medbuddies.ui.activity.CareTakerRegisterActivity;
 import com.ulul.medbuddies.ui.activity.HospitalActivity;
 
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ulul.medbuddies.ui.activity.LoginActivity;
 import com.ulul.medbuddies.ui.activity.PatientRegisterActivity;
+import com.ulul.medbuddies.util.LocalStorage;
 
 
 /**
@@ -42,6 +44,9 @@ import com.ulul.medbuddies.ui.activity.PatientRegisterActivity;
  */
 public class Profile extends Fragment {
     final int REQUEST_CALL = 1;
+    LocalStorage localStorage;
+    int roleUser;
+    String care_taker;
 
     public Profile() {
         // Required empty public constructor
@@ -61,6 +66,9 @@ public class Profile extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
 
+        TextView tv_pc_card = view.findViewById(R.id.tv_caretaker);
+        TextView tv_pc_card_sub = view.findViewById(R.id.tv_rumahsakit);
+
         final TextView profileName = view.findViewById(R.id.profile_name);
         final TextView profilePhone = view.findViewById(R.id.profile_phone);
         final TextView profileAddress = view.findViewById(R.id.profile_address);
@@ -70,6 +78,18 @@ public class Profile extends Fragment {
         final FloatingActionButton btn_add_patient = view.findViewById(R.id.btn_add_patient);
         Button btn_logout = view.findViewById(R.id.btn_logout);
 
+        localStorage = new LocalStorage(getContext(), "user");
+        roleUser = localStorage.getInt("role");
+        care_taker = localStorage.getString("care_taker");
+
+        if (roleUser == 1){
+            tv_pc_card.setText("Care Taker Card");
+            if (!care_taker.equals("") && care_taker != null){
+                btn_add_patient.setImageResource(R.drawable.ic_call_black_24dp);
+                tv_pc_card_sub.setText(localStorage.getString("nama_care_taker"));
+            }
+        }
+
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String idUser = user.getUid();
@@ -77,6 +97,7 @@ public class Profile extends Fragment {
 
        FirebaseDatabase getDatabase = FirebaseDatabase.getInstance();
        DatabaseReference getRefenence = getDatabase.getReference();
+
        //Read Profile
         getRefenence.child("user").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,7 +164,23 @@ public class Profile extends Fragment {
         btn_add_patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PatientRegisterActivity.class));
+                if (roleUser == 0){
+                    startActivity(new Intent(getActivity(), PatientRegisterActivity.class));
+                } else if (roleUser ==1){
+                    if (care_taker.equals("") || care_taker == null){
+                        startActivity(new Intent(getActivity(), CareTakerRegisterActivity.class));
+                    } else {
+//                        Toast.makeText(getContext(), localStorage.getString("no_telp_care_taker"), Toast.LENGTH_SHORT).show();
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" +localStorage.getString("no_telp_care_taker")));
+
+                        if (ContextCompat.checkSelfPermission(getActivity(), CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                            startActivity(callIntent);
+                        } else {
+                            requestPermissions(new String[]{CALL_PHONE}, 1);
+                        }
+                    }
+                }
             }
         });
 

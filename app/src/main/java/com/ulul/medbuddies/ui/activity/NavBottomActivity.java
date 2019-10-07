@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,8 +71,12 @@ public class NavBottomActivity extends AppCompatActivity {
 
         mAut = FirebaseAuth.getInstance().getCurrentUser();
         int role = getIntent().getIntExtra("role", -1);
-        LocalStorage local = new LocalStorage(this, "role");
+        String careTaker = getIntent().getStringExtra("care_taker");
+        LocalStorage local = new LocalStorage(this, "user");
         local.setInt("role", role);
+        local.setString("care_taker", careTaker);
+
+//        Toast.makeText(this, String.valueOf(role), Toast.LENGTH_SHORT).show();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
 

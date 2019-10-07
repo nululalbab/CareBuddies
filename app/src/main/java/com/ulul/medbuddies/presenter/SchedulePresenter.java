@@ -47,6 +47,8 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     List<Date> range;
     SimpleDateFormat formatter;
 
+    LocalStorage localStorage;
+
 
     public SchedulePresenter(ScheduleContract.View view){
         this.view = view;
@@ -188,6 +190,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
             databaseReference.child("user").child(idPatient).child("schedule").child(uiSchedule).setValue(s);
             LocalStorage local = new LocalStorage(context, "schedule");
             local.setString(uiSchedule, s.getJadwal() + " " + s.getJadwal());
+            view.message("Schedule successfully added");
             view.onSuccess();
         }
     }
@@ -235,15 +238,26 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     public void listScheduleByDate(final String date) {
         view.onLoad();
 
-        databaseReference.child("schedule").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("schedule").orderByChild("jam").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Schedule> list = new ArrayList<>();
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     Schedule s = ds.getValue(Schedule.class);
-                    if (s.getJadwal().equals(date)){
-                        s.setKey(ds.getKey());
-                        list.add(s);
+                    if (localStorage.getInt("role") == 1){
+                        if (s.getPatient().equals(mAuth.getUid())){
+                            if (s.getJadwal().equals(date)){
+                                s.setKey(ds.getKey());
+                                list.add(s);
+                            }
+                        }
+                    } else if (localStorage.getInt("role") == 0){
+                        if (s.getCare_taker().equals(mAuth.getUid())){
+                            if (s.getJadwal().equals(date)){
+                                s.setKey(ds.getKey());
+                                list.add(s);
+                            }
+                        }
                     }
                 }
                 listSchedule = list;
@@ -360,22 +374,26 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
 
                 for (DataSnapshot ds :dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getCare_taker().equals(mAuth.getUid())){
-                        Date dateS = null;
-                        try {
-                            dateS = formatter.parse(schedule.getJadwal());
-                            if (now.after(dateS)){
-                                if (now.equals(dateS)){
-                                    if (schedule.getStatus() == 1){
-                                        list.add(schedule);
-                                    }
-                                } else {
+                    boolean cek = false;
+                    if (schedule.getCare_taker().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
+                        cek = true;
+                    } else if (schedule.getPatient().equals(mAuth.getUid()) && localStorage.getInt("role") == 1){
+                        cek = true;
+                    }
+                    Date dateS = null;
+                    try {
+                        dateS = formatter.parse(schedule.getJadwal());
+                        if (now.after(dateS) && cek){
+                            if (now.equals(dateS)){
+                                if (schedule.getStatus() == 1){
                                     list.add(schedule);
                                 }
+                            } else {
+                                list.add(schedule);
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
                         }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
                 }
                 view.listScheduleByPatient(filterByPatient(filterDescJadwal(list)));
@@ -398,13 +416,17 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                 List<Schedule> list = new ArrayList<>();
                 for (DataSnapshot ds :dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getCare_taker().equals(mAuth.getUid())){
-                        if (schedule.getStatus() == 1){
-                            String [] arr = schedule.getJadwal().split("-");
-                            if (arr.length > 1){
-                                Log.e("masuk success ", "oke");
-                                list.add(schedule);
-                            }
+                    boolean cek = false;
+                    if (schedule.getCare_taker().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
+                        cek = true;
+                    } else if (schedule.getPatient().equals(mAuth.getUid()) && localStorage.getInt("role") == 1){
+                        cek = true;
+                    }
+                    if (schedule.getStatus() == 1 &&  cek){
+                        String [] arr = schedule.getJadwal().split("-");
+                        if (arr.length > 1){
+                            Log.e("masuk success ", "oke");
+                            list.add(schedule);
                         }
                     }
                 }
@@ -435,20 +457,24 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
 
                 for (DataSnapshot ds :dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getCare_taker().equals(mAuth.getUid())){
-                        if (schedule.getStatus() == 0){
-                            Date dateS = null;
-                            try {
-                                dateS = formatter.parse(schedule.getJadwal());
-                                if (now.after(dateS)){
-                                    String [] arr = schedule.getJadwal().split("-");
-                                    if (arr.length == 3){
-                                        list.add(schedule);
-                                    }
+                    boolean cek = false;
+                    if (schedule.getCare_taker().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
+                        cek = true;
+                    } else if (schedule.getPatient().equals(mAuth.getUid()) && localStorage.getInt("role") == 1){
+                        cek = true;
+                    }
+                    if (schedule.getStatus() == 0 && cek){
+                        Date dateS = null;
+                        try {
+                            dateS = formatter.parse(schedule.getJadwal());
+                            if (now.after(dateS)){
+                                String [] arr = schedule.getJadwal().split("-");
+                                if (arr.length == 3){
+                                    list.add(schedule);
                                 }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -467,6 +493,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
     @Override
     public void setContext(Context context) {
         this.context = context;
+        localStorage = new LocalStorage(context, "user");
     }
 
 }

@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements AuthContract.Vie
         dialog.dismiss();
         Intent goHome = new Intent(LoginActivity.this, NavBottomActivity.class);
         goHome.putExtra("role", Integer.valueOf(dataInformation.getRole()));
+        goHome.putExtra("care_taker", dataInformation.getCare_taker());
         startActivity(goHome);
         finish();
     }

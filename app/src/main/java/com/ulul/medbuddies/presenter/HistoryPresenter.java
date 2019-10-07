@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.ulul.medbuddies.contract.HistoryContract;
 import com.ulul.medbuddies.model.Schedule;
+import com.ulul.medbuddies.util.LocalStorage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +30,8 @@ public class HistoryPresenter implements HistoryContract.Presenter {
     FirebaseUser mAuth;
 
     SimpleDateFormat dateFormat;
+
+    LocalStorage localStorage;
 
     public HistoryPresenter(HistoryContract.View view){
         this.view = view;
@@ -64,14 +67,18 @@ public class HistoryPresenter implements HistoryContract.Presenter {
                 List<CalendarDay> list = new ArrayList<>();
                 for (DataSnapshot ds :dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getCare_taker().equals(mAuth.getUid())){
-                        if (schedule.getStatus() == 1){
-                            String [] arr = schedule.getJadwal().split("-");
-                            if (arr.length > 1){
-                                Log.e("masuk success ", "oke");
-                                CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]), Integer.valueOf(arr[2]));
-                                list.add(day);
-                            }
+                    boolean cek = false;
+                    if (schedule.getCare_taker().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
+                        cek = true;
+                    } else if (schedule.getPatient().equals(mAuth.getUid()) && localStorage.getInt("role") == 1){
+                        cek = true;
+                    }
+                    if (schedule.getStatus() == 1 && cek){
+                        String [] arr = schedule.getJadwal().split("-");
+                        if (arr.length > 1){
+                            Log.e("masuk success ", "oke");
+                            CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]), Integer.valueOf(arr[2]));
+                            list.add(day);
                         }
                     }
                 }
@@ -102,21 +109,25 @@ public class HistoryPresenter implements HistoryContract.Presenter {
 
                 for (DataSnapshot ds :dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getCare_taker().equals(mAuth.getUid())){
-                        if (schedule.getStatus() == 0){
-                            Date dateS = null;
-                            try {
-                                dateS = dateFormat.parse(schedule.getJadwal());
-                                if (now.after(dateS)){
-                                    String [] arr = schedule.getJadwal().split("-");
-                                    if (arr.length == 3){
-                                        CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]), Integer.valueOf(arr[2]));
-                                        list.add(day);
-                                    }
+                    boolean cek = false;
+                    if (schedule.getCare_taker().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
+                        cek = true;
+                    } else if (schedule.getPatient().equals(mAuth.getUid()) && localStorage.getInt("role") == 1){
+                        cek = true;
+                    }
+                    if (schedule.getStatus() == 0 && cek){
+                        Date dateS = null;
+                        try {
+                            dateS = dateFormat.parse(schedule.getJadwal());
+                            if (now.after(dateS)){
+                                String [] arr = schedule.getJadwal().split("-");
+                                if (arr.length == 3){
+                                    CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]), Integer.valueOf(arr[2]));
+                                    list.add(day);
                                 }
-                            } catch (ParseException e) {
-                                e.printStackTrace();
                             }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -147,25 +158,34 @@ public class HistoryPresenter implements HistoryContract.Presenter {
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Schedule schedule = ds.getValue(Schedule.class);
-                    if (schedule.getStatus() == 1){
-                        String [] arr = schedule.getJadwal().split("-");
-                        if (arr.length > 1){
-                            CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]) - 1, Integer.valueOf(arr[2]));
-                            listSuccess.add(day);
-                        }
-                    } else if (schedule.getStatus() == 0){
-                        Date dateS = null;
-                        try {
-                            dateS = dateFormat.parse(schedule.getJadwal());
-                            if (now.after(dateS)){
-                                String [] arr = schedule.getJadwal().split("-");
-                                if (arr.length > 1){
-                                    CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]) - 1, Integer.valueOf(arr[2]));
-                                    listFailure.add(day);
-                                }
+                    boolean ceking = false;
+                    if (localStorage.getInt("role") == 1 && schedule.getPatient().equals(mAuth.getUid())){
+                        ceking = true;
+                    } else if (localStorage.getInt("role") == 0 && schedule.getCare_taker().equals(mAuth.getUid())) {
+                        ceking = true;
+                    }
+
+                    if (ceking){
+                        if (schedule.getStatus() == 1){
+                            String [] arr = schedule.getJadwal().split("-");
+                            if (arr.length > 1){
+                                CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]) - 1, Integer.valueOf(arr[2]));
+                                listSuccess.add(day);
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        } else if (schedule.getStatus() == 0){
+                            Date dateS = null;
+                            try {
+                                dateS = dateFormat.parse(schedule.getJadwal());
+                                if (now.after(dateS)){
+                                    String [] arr = schedule.getJadwal().split("-");
+                                    if (arr.length > 1){
+                                        CalendarDay day = CalendarDay.from(Integer.valueOf(arr[0]), Integer.valueOf(arr[1]) - 1, Integer.valueOf(arr[2]));
+                                        listFailure.add(day);
+                                    }
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -189,5 +209,6 @@ public class HistoryPresenter implements HistoryContract.Presenter {
     @Override
     public void setContext(Context context) {
         this.context = context;
+        localStorage = new LocalStorage(context, "user");
     }
 }

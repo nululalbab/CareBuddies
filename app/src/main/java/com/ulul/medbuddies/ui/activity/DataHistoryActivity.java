@@ -36,6 +36,7 @@ public class DataHistoryActivity extends AppCompatActivity implements ScheduleCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_history);
         presenter = new SchedulePresenter(this);
+        presenter.setContext(this);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         FirebaseDatabase getDatabase = FirebaseDatabase.getInstance();
@@ -97,7 +98,10 @@ public class DataHistoryActivity extends AppCompatActivity implements ScheduleCo
 
     @Override
     public void listScheduleFailure(List<Schedule> list) {
-
+        this.dataList = list;
+        adapter.updateList(list);
+        adapter.notifyDataSetChanged();
+        Log.e("test bro","masuk gak");
     }
 
     @Override

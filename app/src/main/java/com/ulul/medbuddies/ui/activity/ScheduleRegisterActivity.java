@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ulul.medbuddies.R;
 import com.ulul.medbuddies.adapter.ScheduleAdapter;
 import com.ulul.medbuddies.contract.PatientContract;
@@ -25,6 +27,7 @@ import com.ulul.medbuddies.model.Medicine;
 import com.ulul.medbuddies.model.Schedule;
 import com.ulul.medbuddies.presenter.PatientPresenter;
 import com.ulul.medbuddies.presenter.SchedulePresenter;
+import com.ulul.medbuddies.util.LocalStorage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ScheduleRegisterActivity extends AppCompatActivity  implements ScheduleContract.View, PatientContract.View{
+    FirebaseUser mAuth;
 
     SchedulePresenter schedulePresenter;
     PatientPresenter patientPresenter;
@@ -56,11 +60,16 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
 
     ProgressDialog dialog;
 
+    int roleUser;
+
     ScheduleAdapter scheduleAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_register);
+
+        LocalStorage localStorage = new LocalStorage(this, "user");
+        roleUser = localStorage.getInt("role");
 
         start_date = (EditText) findViewById(R.id.start_date);
         end_date = (EditText) findViewById(R.id.end_date);
@@ -72,8 +81,6 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
         dialog = new ProgressDialog(ScheduleRegisterActivity.this);
         dialog.setMessage("Loading. Please wait...");
 
-        this.idMedicine = "";
-        this.idPatient = "";
 
         listPatient = new ArrayList<>();
         listMedicine = new ArrayList<>();
@@ -86,7 +93,22 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
 
         patientPresenter = new PatientPresenter(this);
         patientPresenter.setContext(this);
-        patientPresenter.getList();
+
+//        Toast.makeText(this, String.valueOf(roleUser), Toast.LENGTH_SHORT).show();
+
+
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        this.idMedicine = "";
+        this.idPatient = "";
+        if (roleUser == 1){
+            this.idPatient = mAuth.getUid();
+        }
+
+        if (roleUser == 0){
+            patientPresenter.getList();
+        } else {
+            patient_schedule.setVisibility(View.GONE);
+        }
 
         final String keterangan = "";
         final String care_taker = "";
@@ -155,7 +177,7 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
                         Date end = format.parse(end_date.getText().toString());
                         schedulePresenter.setData(start, end, hours.getText().toString(), 0, "", idPatient, idMedicine);
 //                        schedulePresenter.submitData();
-                        Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ScheduleRegisterActivity.this, String.valueOf(end), Toast.LENGTH_SHORT).show();
                     }catch (ParseException e){
                         Toast.makeText(ScheduleRegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -224,24 +246,31 @@ public class ScheduleRegisterActivity extends AppCompatActivity  implements Sche
     @Override
     public void onSuccess() {
         dialog.dismiss();
+//        super.onBackPressed();
     }
 
     @Override
     public void message(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        super.onBackPressed();
     }
 
     @Override
     public void listPatient(List<DataInformation> list) {
         listPatient = list;
-        List<String> arrayList = new ArrayList<>();
-        for (DataInformation m: list){
-            arrayList.add(m.getNama());
-        }
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
-        patient_schedule.setAdapter(adapter);
+        if (list.size() == 0){
+            Toast.makeText(this, "You must add patient", Toast.LENGTH_SHORT).show();
+            super.onBackPressed();
+        } else {
+            List<String> arrayList = new ArrayList<>();
+            for (DataInformation m: list){
+                arrayList.add(m.getNama());
+            }
+            ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
+            patient_schedule.setAdapter(adapter);
 
-        dialog.dismiss();
+            dialog.dismiss();
+        }
     }
 
     @Override

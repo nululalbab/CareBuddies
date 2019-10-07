@@ -197,6 +197,7 @@ public class SplashScreenActivity extends AppCompatActivity implements DataInfor
         } else {
             Intent intent = new Intent(SplashScreenActivity.this, NavBottomActivity.class);
             intent.putExtra("role", Integer.valueOf(dataInformation.getRole()));
+            intent.putExtra("care_taker", dataInformation.getCare_taker());
             startActivity(intent);
             finish();
         }

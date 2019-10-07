@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E8E9E8"
-    tools:context=".ui.activity.PatientRegisterActivity">
+    tools:context=".ui.activity.CareTakerRegisterActivity">
     <ImageView
         android:src="@drawable/login_kiri_atas"
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="20dp"
             android:id="@+id/no_telp"
-            android:hint="Phone number patient"
+            android:hint="Phone number care taker"
             android:backgroundTint="#FFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -59,7 +59,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:text="Patient"
+        android:text="Care Taker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>
