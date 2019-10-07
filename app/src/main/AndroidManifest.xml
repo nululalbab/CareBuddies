@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ulul.carebuddies">
+    package="com.ulul.medbuddies">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,15 +20,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
-        <activity android:name=".ui.activity.DataHistoryActivity"></activity>
-        <activity android:name=".ui.activity.PrintHistoryActivity"></activity>
-        <activity android:name=".ui.activity.PatientRegisterActivity" />
-        <activity android:name=".ui.activity.DataInformationActivity" />
-        <activity android:name=".ui.activity.DataPatientActivity" />
-        <activity android:name=".ui.activity.DataScheduleActivity" />
-        <activity android:name=".ui.activity.HospitalActivity" />
-        <activity android:name=".ui.activity.ScheduleRegisterActivity" />
-        <activity android:name=".ui.activity.SplashScreenActivity">
+        <activity android:name="com.ulul.medbuddies.ui.activity.DataHistoryActivity"></activity>
+        <activity android:name="com.ulul.medbuddies.ui.activity.PrintHistoryActivity"></activity>
+        <activity android:name="com.ulul.medbuddies.ui.activity.PatientRegisterActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.DataInformationActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.DataPatientActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.DataScheduleActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.HospitalActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.ScheduleRegisterActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +36,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.NavBottomActivity"
+            android:name="com.ulul.medbuddies.ui.activity.NavBottomActivity"
             android:label="@string/title_activity_nav_bottom" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.RegisterActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.LoginActivity" />
+        <activity android:name="com.ulul.medbuddies.ui.activity.RegisterActivity" />
     </application>
 
 </manifest>
