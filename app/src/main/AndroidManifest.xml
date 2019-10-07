@@ -2,17 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ulul.medbuddies">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
-    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,15 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.noActionBar">
-        <activity android:name="com.ulul.medbuddies.ui.activity.DataHistoryActivity"></activity>
-        <activity android:name="com.ulul.medbuddies.ui.activity.PrintHistoryActivity"></activity>
-        <activity android:name="com.ulul.medbuddies.ui.activity.PatientRegisterActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.DataInformationActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.DataPatientActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.DataScheduleActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.HospitalActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.ScheduleRegisterActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.SplashScreenActivity">
+        <activity android:name=".ui.activity.NotificationActivity"></activity>
+        <activity android:name=".ui.activity.DataHistoryActivity" />
+        <activity android:name=".ui.activity.PrintHistoryActivity" />
+        <activity android:name=".ui.activity.PatientRegisterActivity" />
+        <activity android:name=".ui.activity.DataInformationActivity" />
+        <activity android:name=".ui.activity.DataPatientActivity" />
+        <activity android:name=".ui.activity.DataScheduleActivity" />
+        <activity android:name=".ui.activity.HospitalActivity" />
+        <activity android:name=".ui.activity.ScheduleRegisterActivity" />
+        <activity android:name=".ui.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +26,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ulul.medbuddies.ui.activity.NavBottomActivity"
+            android:name=".ui.activity.NavBottomActivity"
             android:label="@string/title_activity_nav_bottom" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.LoginActivity" />
-        <activity android:name="com.ulul.medbuddies.ui.activity.RegisterActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.RegisterActivity" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
 
 </manifest>
