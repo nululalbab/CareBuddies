@@ -90,6 +90,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
+                    String idCareTaker = "";
                     for (DataSnapshot ds : dataSnapshot.getChildren()){
                         if (ds.getKey().equals("user")){
                             Log.e("masuk user", "oke");
@@ -97,8 +98,14 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                                 if (user.getKey().equals(patient)){
                                     detailPatient = user.getValue(DataInformation.class);
                                 }
-                                if (user.getKey().equals(mAuth.getUid())){
+                            }
+                            for(DataSnapshot user : ds.getChildren()){
+                                if (user.getKey().equals(mAuth.getUid()) && localStorage.getInt("role") == 0){
                                     detailCareTaker = user.getValue(DataInformation.class);
+                                    idCareTaker = user.getKey();
+                                } else if (user.getKey().equals(detailPatient.getCare_taker()) && localStorage.getInt("role") == 1){
+                                    detailCareTaker = user.getValue(DataInformation.class);
+                                    idCareTaker = user.getKey();
                                 }
                             }
                         } else if (ds.getKey().equals("obat")) {
@@ -112,8 +119,9 @@ public class SchedulePresenter implements ScheduleContract.Presenter{
                     for (Date d: range){
                         String jadwal = formatter.format(d);
                         Log.e("e", jadwal);
-                        Schedule in = new Schedule(jadwal, jam, status, keterangan, mAuth.getUid() , patient, medicine, detailCareTaker, detailPatient, detailMedicine);
-                        in.setCare_taker(mAuth.getUid());
+                        Schedule in = new Schedule(jadwal, jam, status, keterangan,
+                                idCareTaker, patient, medicine, detailCareTaker, detailPatient, detailMedicine);
+                        in.setCare_taker(idCareTaker);
                         listSchedule.add(in);
                     }
                     submitData();

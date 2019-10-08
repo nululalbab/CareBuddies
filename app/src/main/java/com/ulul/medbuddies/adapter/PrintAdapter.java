@@ -53,7 +53,7 @@ public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> 
         TextView tv_jam_print;
         TextView tv_obat_print;
         TextView tv_nama_print;
-        TextView tv_keterangan_print;
+        TextView tv_keterangan_print, tv_status;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
            tv_jadwal_print = (TextView) itemView.findViewById(R.id.tv_jadwal_print);
@@ -61,7 +61,7 @@ public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> 
             tv_obat_print = (TextView) itemView.findViewById(R.id.tv_obat_print);
             tv_nama_print = (TextView) itemView.findViewById(R.id.tv_nama_print);
             tv_keterangan_print = (TextView) itemView.findViewById(R.id.tv_keterangan_print);
-
+            tv_status = (TextView) itemView.findViewById(R.id.tv_status);
         }
 
         public void bindItem(Schedule item){
@@ -70,7 +70,13 @@ public class PrintAdapter extends RecyclerView.Adapter<PrintAdapter.ViewHolder> 
             tv_obat_print.setText(item.getDetail_medicine().getNama_obat());
             tv_keterangan_print.setText(item.getKeterangan());
             tv_nama_print.setText(item.getDetail_patient().getNama());
-
+            if (item.getStatus() == 0){
+                tv_status.setBackgroundResource(R.drawable.bg_cross);
+                tv_status.setText("Rejected");
+            } else if (item.getStatus() == 1){
+                tv_status.setBackgroundResource(R.drawable.bg_green);
+                tv_status.setText("Success");
+            }
         }
     }
 }

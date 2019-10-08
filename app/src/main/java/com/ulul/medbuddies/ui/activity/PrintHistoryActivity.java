@@ -39,7 +39,11 @@ import com.ulul.medbuddies.model.Schedule;
 import com.ulul.medbuddies.presenter.SchedulePresenter;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,10 +118,29 @@ public class PrintHistoryActivity extends AppCompatActivity implements ScheduleC
     public void listScheduleByPatient(HashMap<String, List<Schedule>> list) {
         this.hashMap = list;
         Log.e("test isi",String.valueOf(list.size()));
+        Calendar c = Calendar.getInstance();
+        Date now = new Date();
+        c.setTime(now);
+        c.add(Calendar.DATE, -1);
+        now = c.getTime();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         for (Map.Entry<String, List<Schedule>> h : list.entrySet()){
             Log.e("for by patient", h.getValue().toString());
             for (Schedule value: h.getValue()){
-                adapter.putList(value);
+                if (value.getStatus() == 0){
+                    try {
+                        Date dateS = formatter.parse(value.getJadwal());
+                        if (now.after(dateS)){
+                            adapter.putList(value);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    adapter.putList(value);
+                }
             }
         }
 //        adapter.updateList(list);

@@ -33,4 +33,13 @@ public class LocalStorage {
     public int getInt(String key){
         return pref.getInt(key, -1);
     }
+
+    public void removeUserPref(){
+        SharedPreferences.Editor editor = pref.edit();
+        editor.remove("role");
+        editor.remove("care_taker");
+        editor.remove("no_telp_care_taker");
+        editor.remove("nama_care_taker");
+        editor.commit();
+    }
 }

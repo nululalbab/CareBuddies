@@ -25,8 +25,9 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
 
 
     EditText nama, no_telp, alamat, ttl, jenis_kelamin, sumber_biaya;
-    Spinner role_spinner;
+    Spinner role_spinner, gender_spinner;
     String role;
+    String gender;
     ProgressDialog dialog;
 
     @Override
@@ -46,17 +47,26 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
         no_telp = (EditText) findViewById(R.id.no_telp);
         alamat = (EditText) findViewById(R.id.alamat);
         ttl = (EditText) findViewById(R.id.ttl);
-        jenis_kelamin = (EditText) findViewById(R.id.jenis_kelamin);
+        gender_spinner = (Spinner) findViewById(R.id.gender_spinner);
         sumber_biaya = (EditText) findViewById(R.id.sumber_biaya);
         role_spinner = (Spinner) findViewById(R.id.role_spinner);
 
         List<String> arrayList = new ArrayList<>();
         arrayList.add("Patient");
         arrayList.add("Care Taker");
+
+        List<String> genderList = new ArrayList<>();
+        genderList.add("Man");
+        genderList.add("Woman");
+
+        gender = "man";
         role = "1";
 
         final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, arrayList);
         role_spinner.setAdapter(adapter);
+
+        final ArrayAdapter adapterGender = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, genderList);
+        gender_spinner.setAdapter(adapterGender);
 
         role_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -74,11 +84,27 @@ public class DataInformationActivity extends AppCompatActivity implements DataIn
             }
         });
 
+        gender_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    gender = "man";
+                } else {
+                    gender = "woman";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.setData(nama.getText().toString(), alamat.getText().toString(), no_telp.getText().toString(),
-                        ttl.getText().toString(), jenis_kelamin.getText().toString(), sumber_biaya.getText().toString(), role);
+                        ttl.getText().toString(), gender, sumber_biaya.getText().toString(), role);
                 presenter.submitData();
                 }
         });

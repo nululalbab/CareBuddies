@@ -29,7 +29,11 @@ import com.ulul.medbuddies.ui.activity.ScheduleRegisterActivity;
 import com.ulul.medbuddies.util.ItemClickSupport;
 import com.ulul.medbuddies.util.LocalStorage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -110,19 +114,35 @@ public class Schedule extends Fragment implements ScheduleContract.View {
             }
         });
 
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         ItemClickSupport.addTo(recycler_view_schedule).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 Log.d("Position","Value : "+ position);
                 if (localStorage.getInt("role") == 0){
-                    Intent intent = new Intent(getActivity(), DataScheduleActivity.class);
-                    Log.d("Data List Position","Value : "+ dataList.get(position));
+                    try {
+                        Date dateS = formatter.parse(dataList.get(position).getJadwal());
+                        Calendar c = Calendar.getInstance();
+                        Date now = new Date();
+                        c.setTime(now);
+                        c.add(Calendar.DATE, -1);
+                        now = c.getTime();
 
-                    intent.putExtra("data1", dataList.get(position).getKey());
+                        if (!now.after(dateS)){
+                            if (dataList.get(position).getStatus() == 0){
+                                Intent intent = new Intent(getActivity(), DataScheduleActivity.class);
+                                Log.d("Data List Position","Value : "+ dataList.get(position));
 
-                    Log.d("Key","Value : "+ dataList.get(position).getKey());
-                    startActivity(intent);
+                                intent.putExtra("data1", dataList.get(position).getKey());
+
+                                Log.d("Key","Value : "+ dataList.get(position).getKey());
+                                startActivity(intent);
+                            }
+                        }
+                    }  catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

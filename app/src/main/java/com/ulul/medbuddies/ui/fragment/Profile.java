@@ -189,6 +189,7 @@ public class Profile extends Fragment {
             public void onClick(View v) {
                 auth.signOut();
                 Toast.makeText(getActivity(), "Logout Success", Toast.LENGTH_SHORT).show();
+                localStorage.removeUserPref();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
             }

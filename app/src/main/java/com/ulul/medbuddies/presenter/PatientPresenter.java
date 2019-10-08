@@ -108,37 +108,36 @@ public class PatientPresenter implements PatientContract.Presenter {
                             break;
                         }
                     } else if (data.getRole().equals("0") && data.getNo_telp().equals(no_telp) && localStorage.getInt("role") == 1) {
-                        boolean cekCareTaker = false;
+                        boolean cekDataUser = false;
                         DataInformation dataUser = new DataInformation();
 
                         for (DataSnapshot cekEmpty : dataSnapshot.getChildren()) {
                             DataInformation cekData = cekEmpty.getValue(DataInformation.class);
-                            Log.e("cek data", cekData.getNama());
-
-                            if (cekData.getCare_taker().equals(ds.getKey())) {
-                                cekCareTaker = true;
-                            }
 
                             if (cekEmpty.getKey().equals(mAuth.getUid())){
+//                                cekDataUser = true;
                                 dataUser = cekData;
                             }
                         }
-                        if (!cekCareTaker) {
-                            dataUser.setCare_taker(ds.getKey());
-                            databaseReference.child("user").child(mAuth.getUid())
-                                    .setValue(dataUser);
-                            cek = true;
-                            localStorage.setString("care_taker", ds.getKey());
-                            localStorage.setString("no_telp_care_taker", data.getNo_telp());
-                            localStorage.setString("nama_care_taker", data.getNama());
-                            view.message("Success add care taker");
-                            view.onSuccess();
-                            break;
-                        }
+                        dataUser.setCare_taker(ds.getKey());
+                        databaseReference.child("user").child(mAuth.getUid()).setValue(dataUser);
+                        databaseReference.child("user").child(ds.getKey()).child("pasien")
+                                .child(mAuth.getUid()).setValue(dataUser);
+
+                        cek = true;
+                        localStorage.setString("care_taker", ds.getKey());
+                        localStorage.setString("no_telp_care_taker", data.getNo_telp());
+                        localStorage.setString("nama_care_taker", data.getNama());
+                        view.message("Success add care taker");
+                        view.onSuccess();
+//                        if (!cekDataUser) {
+//                            break;
+//                        }
                     }
                 }
                 if (!cek){
                     view.message("Sorry phone number doesn't exists");
+                    view.onError();
                 }
             }
 
